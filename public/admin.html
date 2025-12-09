@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Panel - Manage your portfolio">
+    <title>Admin Panel</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme-modern.css" id="theme-css">
+
+    <style>
+        /* Admin-specific styles */
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary, #ffffff);
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .admin-nav a {
+            color: var(--text-secondary, #a0a0b8);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition-fast);
+        }
+
+        .admin-nav a:hover {
+            background: var(--bg-secondary, #1a1a2e);
+            color: var(--text-primary, #ffffff);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .admin-card {
+            background: var(--bg-card, #16162a);
+            border: 1px solid var(--border-color, #2a2a4a);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .admin-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary, #ffffff);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-card-description {
+            color: var(--text-secondary, #a0a0b8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* File Upload */
+        .file-upload-area {
+            border: 2px dashed var(--border-color, #2a2a4a);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--accent, #7c3aed);
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .file-upload-area.dragover {
+            border-color: var(--accent, #7c3aed);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-text {
+            color: var(--text-secondary, #a0a0b8);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-hint {
+            color: var(--text-secondary, #a0a0b8);
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent, #7c3aed);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover, #6d28d9);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary, #1a1a2e);
+            color: var(--text-primary, #ffffff);
+            border: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card, #16162a);
+            border-color: var(--accent, #7c3aed);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .message.error {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid #e94560;
+            color: #e94560;
+        }
+
+        /* Theme Analytics */
+        .analytics-chart {
+            margin-top: 1rem;
+        }
+
+        .analytics-bar-container {
+            margin-bottom: 1rem;
+        }
+
+        .analytics-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .analytics-bar-name {
+            color: var(--text-primary, #ffffff);
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .analytics-bar-count {
+            color: var(--text-secondary, #a0a0b8);
+        }
+
+        .analytics-bar-track {
+            height: 24px;
+            background: var(--bg-secondary, #1a1a2e);
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+        }
+
+        .analytics-bar-fill {
+            height: 100%;
+            border-radius: var(--border-radius-sm);
+            transition: width 0.5s ease;
+        }
+
+        .analytics-bar-fill.minimal {
+            background: linear-gradient(90deg, #666 0%, #999 100%);
+        }
+
+        .analytics-bar-fill.modern {
+            background: linear-gradient(90deg, #7c3aed 0%, #06b6d4 100%);
+        }
+
+        .analytics-bar-fill.elegant {
+            background: linear-gradient(90deg, #b8860b 0%, #daa520 100%);
+        }
+
+        .analytics-bar-fill.retro {
+            background: linear-gradient(90deg, #e94560 0%, #00ff88 100%);
+        }
+
+        .analytics-total {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary, #1a1a2e);
+            border-radius: var(--border-radius-sm);
+            margin-top: 1.5rem;
+        }
+
+        .analytics-total-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent, #7c3aed);
+        }
+
+        .analytics-total-label {
+            color: var(--text-secondary, #a0a0b8);
+            font-size: 0.875rem;
+        }
+
+        /* Login overlay */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary, #0f0f1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .login-overlay.hidden {
+            display: none;
+        }
+
+        .login-card {
+            background: var(--bg-card, #16162a);
+            border: 1px solid var(--border-color, #2a2a4a);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary, #ffffff);
+            text-align: center;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary, #a0a0b8);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary, #ffffff);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color, #2a2a4a);
+            border-radius: var(--border-radius-sm);
+            background: var(--bg-secondary, #1a1a2e);
+            color: var(--text-primary, #ffffff);
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent, #7c3aed);
+        }
+
+        .login-btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .selected-file {
+            background: var(--bg-secondary, #1a1a2e);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .selected-file-name {
+            color: var(--text-primary, #ffffff);
+            flex: 1;
+        }
+
+        .selected-file-remove {
+            background: none;
+            border: none;
+            color: var(--text-secondary, #a0a0b8);
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .selected-file-remove:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-card">
+            <h1 class="login-title">🔐 Admin Login</h1>
+            <p class="login-subtitle">Enter your credentials to continue</p>
+
+            <div class="message error" id="login-error"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" class="form-input" id="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" class="form-input" id="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary login-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Content -->
+    <div class="admin-container" id="admin-content" style="display: none;">
+        <header class="admin-header">
+            <h1 class="admin-title">⚙️ Admin Panel</h1>
+            <nav class="admin-nav">
+                <a href="/">← Back to Portfolio</a>
+                <a href="/demo">Demo Mode</a>
+            </nav>
+        </header>
+
+        <div class="admin-grid">
+            <!-- Upload Card -->
+            <div class="admin-card">
+                <h2 class="admin-card-title">📤 Upload Portfolio JSON</h2>
+                <p class="admin-card-description">
+                    Upload a new portfolio.json file. The current file will be backed up automatically.
+                </p>
+
+                <div class="message" id="upload-message"></div>
+
+                <div class="file-upload-area" id="file-upload-area">
+                    <div class="file-upload-icon">📁</div>
+                    <p class="file-upload-text">Drag & drop your JSON file here</p>
+                    <p class="file-upload-hint">or click to browse</p>
+                </div>
+
+                <input type="file" class="file-input" id="file-input" accept=".json,application/json">
+
+                <div class="selected-file" id="selected-file" style="display: none;">
+                    <span>📄</span>
+                    <span class="selected-file-name" id="selected-file-name"></span>
+                    <button class="selected-file-remove" id="remove-file">✕</button>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="upload-btn" disabled>
+                        📤 Upload Portfolio
+                    </button>
+                    <button class="btn btn-secondary" id="download-btn">
+                        📥 Download Current JSON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Theme Analytics Card -->
+            <div class="admin-card">
+                <h2 class="admin-card-title">📊 Theme Analytics</h2>
+                <p class="admin-card-description">
+                    See which themes are most popular among your visitors.
+                </p>
+
+                <div class="analytics-chart" id="analytics-chart">
+                    <!-- Bars will be rendered here -->
+                </div>
+
+                <div class="analytics-total">
+                    <div class="analytics-total-number" id="total-count">0</div>
+                    <div class="analytics-total-label">Total Theme Switches</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin Panel Logic
+        const THEMES = ['minimal', 'modern', 'elegant', 'retro'];
+        let authCredentials = null;
+        let selectedFile = null;
+
+        // DOM Elements
+        const loginOverlay = document.getElementById('login-overlay');
+        const adminContent = document.getElementById('admin-content');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const fileUploadArea = document.getElementById('file-upload-area');
+        const fileInput = document.getElementById('file-input');
+        const selectedFileEl = document.getElementById('selected-file');
+        const selectedFileName = document.getElementById('selected-file-name');
+        const removeFileBtn = document.getElementById('remove-file');
+        const uploadBtn = document.getElementById('upload-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const uploadMessage = document.getElementById('upload-message');
+        const analyticsChart = document.getElementById('analytics-chart');
+        const totalCount = document.getElementById('total-count');
+
+        // Login Handler
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            authCredentials = btoa(`${username}:${password}`);
+
+            try {
+                const response = await fetch('/admin/theme-stats', {
+                    headers: {
+                        'Authorization': `Basic ${authCredentials}`
+                    }
+                });
+
+                if (response.ok) {
+                    loginOverlay.classList.add('hidden');
+                    adminContent.style.display = 'block';
+                    loadAnalytics();
+                } else {
+                    loginError.textContent = 'Invalid credentials. Please try again.';
+                    loginError.classList.add('show');
+                    authCredentials = null;
+                }
+            } catch (error) {
+                loginError.textContent = 'Connection error. Please try again.';
+                loginError.classList.add('show');
+            }
+        });
+
+        // File Upload Handlers
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (!file.name.endsWith('.json')) {
+                showMessage(uploadMessage, 'Please select a JSON file.', 'error');
+                return;
+            }
+
+            selectedFile = file;
+            selectedFileName.textContent = file.name;
+            selectedFileEl.style.display = 'flex';
+            uploadBtn.disabled = false;
+            hideMessage(uploadMessage);
+        }
+
+        removeFileBtn.addEventListener('click', () => {
+            selectedFile = null;
+            fileInput.value = '';
+            selectedFileEl.style.display = 'none';
+            uploadBtn.disabled = true;
+        });
+
+        uploadBtn.addEventListener('click', async () => {
+            if (!selectedFile || !authCredentials) return;
+
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Uploading...';
+
+            const formData = new FormData();
+            formData.append('portfolio', selectedFile);
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Basic ${authCredentials}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(uploadMessage, 'Portfolio uploaded successfully!', 'success');
+                    selectedFile = null;
+                    fileInput.value = '';
+                    selectedFileEl.style.display = 'none';
+                } else {
+                    showMessage(uploadMessage, data.error || 'Upload failed.', 'error');
+                }
+            } catch (error) {
+                showMessage(uploadMessage, 'Connection error. Please try again.', 'error');
+            }
+
+            uploadBtn.disabled = !selectedFile;
+            uploadBtn.textContent = 'Upload Portfolio';
+        });
+
+        // Analytics
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/admin/theme-stats', {
+                    headers: {
+                        'Authorization': `Basic ${authCredentials}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    renderAnalytics(data);
+                }
+            } catch (error) {
+                console.error('Failed to load analytics:', error);
+            }
+        }
+
+        function renderAnalytics(data) {
+            const total = Object.values(data).reduce((sum, count) => sum + count, 0);
+            const maxCount = Math.max(...Object.values(data), 1);
+
+            totalCount.textContent = total;
+
+            analyticsChart.innerHTML = THEMES.map(theme => {
+                const count = data[theme] || 0;
+                const percentage = (count / maxCount) * 100;
+
+                return `
+          <div class="analytics-bar-container">
+            <div class="analytics-bar-label">
+              <span class="analytics-bar-name">${theme}</span>
+              <span class="analytics-bar-count">${count} switches</span>
+            </div>
+            <div class="analytics-bar-track">
+              <div class="analytics-bar-fill ${theme}" style="width: ${percentage}%"></div>
+            </div>
+          </div>
+        `;
+            }).join('');
+        }
+
+        // Helper Functions
+        function showMessage(element, text, type) {
+            element.textContent = text;
+            element.className = `message ${type} show`;
+        }
+
+        function hideMessage(element) {
+            element.classList.remove('show');
+        }
+
+        // Download Portfolio JSON
+        downloadBtn.addEventListener('click', async () => {
+            try {
+                downloadBtn.disabled = true;
+                downloadBtn.textContent = 'Downloading...';
+
+                const response = await fetch('/api/portfolio');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch portfolio');
+                }
+
+                const data = await response.json();
+                const jsonString = JSON.stringify(data, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'portfolio.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showMessage(uploadMessage, 'Portfolio downloaded successfully!', 'success');
+            } catch (error) {
+                showMessage(uploadMessage, 'Failed to download portfolio.', 'error');
+                console.error('Download error:', error);
+            } finally {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = '📥 Download Current JSON';
+            }
+        });
+    </script>
+</body>
+
+</html>

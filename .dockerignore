@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+*.md
+.env
+.env.example
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+data/portfolio.backup-*.json

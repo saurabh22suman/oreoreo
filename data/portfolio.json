@@ -1,0 +1,133 @@
+{
+    "profile": {
+        "name": "Alex Chen",
+        "title": "Full Stack Developer",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+        "location": "San Francisco, CA",
+        "email": "alex@example.com",
+        "summary": "Passionate full-stack developer with 5+ years of experience building scalable web applications. I love turning complex problems into simple, beautiful solutions. Currently focused on React, Node.js, and cloud infrastructure."
+    },
+    "socials": [
+        {
+            "platform": "GitHub",
+            "url": "https://github.com/alexchen",
+            "icon": "github"
+        },
+        {
+            "platform": "LinkedIn",
+            "url": "https://linkedin.com/in/alexchen",
+            "icon": "linkedin"
+        },
+        {
+            "platform": "Twitter",
+            "url": "https://twitter.com/alexchen",
+            "icon": "twitter"
+        }
+    ],
+    "skills": [
+        {
+            "category": "Frontend",
+            "items": [
+                "React",
+                "Vue.js",
+                "TypeScript",
+                "Tailwind CSS",
+                "Next.js"
+            ]
+        },
+        {
+            "category": "Backend",
+            "items": [
+                "Node.js",
+                "Python",
+                "Express",
+                "FastAPI",
+                "GraphQL"
+            ]
+        },
+        {
+            "category": "Database",
+            "items": [
+                "PostgreSQL",
+                "MongoDB",
+                "Redis",
+                "Firebase"
+            ]
+        },
+        {
+            "category": "DevOps",
+            "items": [
+                "Docker",
+                "Kubernetes",
+                "AWS",
+                "CI/CD",
+                "Terraform"
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "title": "CloudSync Pro",
+            "description": "A real-time file synchronization platform built with Node.js and React. Supports end-to-end encryption and collaborative editing.",
+            "technologies": [
+                "React",
+                "Node.js",
+                "WebSocket",
+                "AWS S3"
+            ],
+            "url": "https://cloudsync.example.com",
+            "github": "https://github.com/alexchen/cloudsync"
+        },
+        {
+            "title": "AI Task Manager",
+            "description": "Smart task management app that uses AI to prioritize and categorize tasks automatically. Features natural language input and voice commands.",
+            "technologies": [
+                "Vue.js",
+                "Python",
+                "OpenAI",
+                "PostgreSQL"
+            ],
+            "url": "https://aitasks.example.com",
+            "github": "https://github.com/alexchen/ai-tasks"
+        },
+        {
+            "title": "DevMetrics Dashboard",
+            "description": "Analytics dashboard for development teams. Tracks code quality, deployment frequency, and team productivity metrics.",
+            "technologies": [
+                "Next.js",
+                "D3.js",
+                "GraphQL",
+                "MongoDB"
+            ],
+            "url": "https://devmetrics.example.com",
+            "github": "https://github.com/alexchen/devmetrics"
+        }
+    ],
+    "experience": [
+        {
+            "company": "TechCorp Inc.",
+            "role": "Senior Full Stack Developer",
+            "period": "2021 - Present",
+            "description": "Lead developer for the core platform team. Architected microservices infrastructure serving 1M+ daily users. Mentored junior developers and established code review practices."
+        },
+        {
+            "company": "StartupXYZ",
+            "role": "Full Stack Developer",
+            "period": "2019 - 2021",
+            "description": "Built the entire frontend from scratch using React. Implemented REST APIs and database schemas. Reduced page load time by 60% through optimization."
+        },
+        {
+            "company": "WebAgency",
+            "role": "Junior Developer",
+            "period": "2018 - 2019",
+            "description": "Developed responsive websites for various clients. Learned modern JavaScript frameworks and agile methodologies."
+        }
+    ],
+    "education": [
+        {
+            "institution": "University of California, Berkeley",
+            "degree": "B.S. Computer Science",
+            "year": "2018"
+        }
+    ]
+}

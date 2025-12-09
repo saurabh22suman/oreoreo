@@ -1,0 +1,296 @@
+/* ============================================
+   THEME: MINIMAL
+   Clean, black & white with subtle grays
+   ============================================ */
+
+:root {
+    /* Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-card: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --accent: #000000;
+    --accent-light: #333333;
+    --accent-hover: #1a1a1a;
+    --border-color: #e5e5e5;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+/* Body */
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Header */
+.header {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    color: var(--text-primary);
+}
+
+.nav-link {
+    color: var(--text-secondary);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--text-primary);
+}
+
+/* Theme Buttons */
+.theme-btn {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.theme-btn:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.theme-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* Hero */
+.hero {
+    background: var(--gradient-hero);
+}
+
+.hero-avatar {
+    border: 4px solid var(--border-color);
+    box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+.hero-name {
+    color: var(--text-primary);
+}
+
+.hero-title {
+    color: var(--text-secondary);
+}
+
+.hero-location {
+    color: var(--text-secondary);
+}
+
+.hero-summary {
+    color: var(--text-secondary);
+}
+
+/* Social Links */
+.social-link {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.social-link:hover {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* Sections */
+.section {
+    background: var(--bg-primary);
+}
+
+.section:nth-child(even) {
+    background: var(--bg-secondary);
+}
+
+.section-title {
+    color: var(--text-primary);
+}
+
+/* Skill Cards */
+.skill-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.skill-card:hover {
+    box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+.skill-category {
+    color: var(--text-primary);
+}
+
+.skill-tag {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+/* Project Cards */
+.project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.project-card:hover {
+    box-shadow: 0 12px 40px var(--shadow-color);
+}
+
+.project-title {
+    color: var(--text-primary);
+}
+
+.project-description {
+    color: var(--text-secondary);
+}
+
+.tech-tag {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.project-link {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.project-link:hover {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* Experience */
+.experience-item {
+    background: var(--bg-card);
+    border-left-color: var(--accent);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.experience-item::before {
+    background: var(--accent);
+    border: 3px solid var(--bg-primary);
+}
+
+.experience-role {
+    color: var(--text-primary);
+}
+
+.experience-company {
+    color: var(--accent);
+}
+
+.experience-period {
+    color: var(--text-secondary);
+}
+
+.experience-description {
+    color: var(--text-secondary);
+}
+
+/* Education */
+.education-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.education-degree {
+    color: var(--text-primary);
+}
+
+.education-institution {
+    color: var(--accent);
+}
+
+.education-year {
+    color: var(--text-secondary);
+}
+
+/* Footer */
+.footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-text {
+    color: var(--text-secondary);
+}
+
+/* Chatbox */
+.chatbox-toggle {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.chatbox-window {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+.chatbox-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.chatbox-close {
+    color: var(--text-secondary);
+}
+
+.chatbox-messages {
+    background: var(--bg-primary);
+}
+
+.message.user {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.message.bot {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.chatbox-input-container {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.chatbox-input {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.chatbox-input:focus {
+    border-color: var(--accent);
+}
+
+.chatbox-send {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.chatbox-send:hover {
+    background: var(--accent-hover);
+}
+
+.loading-spinner {
+    border-color: var(--text-secondary);
+    border-top-color: transparent;
+}

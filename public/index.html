@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Professional portfolio showcasing skills, projects, and experience">
+  <title>Portfolio</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/theme-modern.css" id="theme-css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-content">
+      <a href="/" class="logo">Portfolio</a>
+      <nav class="nav">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        
+        <!-- Theme Switcher -->
+        <div class="theme-switcher">
+          <button class="theme-btn" data-theme="minimal">Minimal</button>
+          <button class="theme-btn active" data-theme="modern">Modern</button>
+          <button class="theme-btn" data-theme="elegant">Elegant</button>
+          <button class="theme-btn" data-theme="retro">Retro</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="portfolio-content">
+    <!-- Content will be rendered by JavaScript -->
+    <div class="loading-container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+      <div class="loading-spinner"></div>
+    </div>
+  </main>
+
+  <!-- Chatbox -->
+  <div class="chatbox-container">
+    <button class="chatbox-toggle" id="chatbox-toggle" aria-label="Open chat">
+      💬
+    </button>
+    <div class="chatbox-window" id="chatbox-window">
+      <div class="chatbox-header">
+        <h3>Ask me anything</h3>
+        <button class="chatbox-close" id="chatbox-close" aria-label="Close chat">✕</button>
+      </div>
+      <div class="chatbox-messages" id="chatbox-messages">
+        <div class="message bot">
+          Hi! I can answer questions about this portfolio. Ask me about skills, projects, or experience!
+        </div>
+      </div>
+      <div class="chatbox-input-container">
+        <input 
+          type="text" 
+          class="chatbox-input" 
+          id="chatbox-input" 
+          placeholder="Type your question..."
+          aria-label="Chat message input"
+        >
+        <button class="chatbox-send" id="chatbox-send">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">Built with ❤️ | <a href="/demo" style="color: inherit;">Demo Mode</a></p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="/js/theme.js"></script>
+  <script type="module" src="/js/render.js"></script>
+  <script type="module" src="/js/chatbox.js"></script>
+</body>
+</html>

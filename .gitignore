@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Backup files (keep latest only)
+data/portfolio.backup-*.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
+
+# Spec file
+.spec.md

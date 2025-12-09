@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Demo mode - Edit and preview portfolio JSON">
+    <title>Portfolio Demo Mode</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme-modern.css" id="theme-css">
+
+    <style>
+        /* Demo-specific styles */
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            height: calc(100vh - 80px);
+            padding: 1rem;
+        }
+
+        .editor-panel {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card, #16162a);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-secondary, #1a1a2e);
+            border-bottom: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .editor-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary, #ffffff);
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: var(--transition-fast);
+        }
+
+        .btn-primary {
+            background: var(--accent, #7c3aed);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover, #6d28d9);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary, #1a1a2e);
+            color: var(--text-secondary, #a0a0b8);
+            border: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card, #16162a);
+            color: var(--text-primary, #ffffff);
+        }
+
+        .editor-textarea {
+            flex: 1;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            resize: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            background: var(--bg-card, #16162a);
+            color: var(--text-primary, #ffffff);
+        }
+
+        .editor-textarea:focus {
+            outline: none;
+        }
+
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card, #16162a);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-secondary, #1a1a2e);
+            border-bottom: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .preview-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary, #ffffff);
+        }
+
+        .preview-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background: #ffffff;
+        }
+
+        .error-message {
+            padding: 1rem;
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid #e94560;
+            border-radius: var(--border-radius-sm);
+            color: #e94560;
+            margin: 0.5rem 1rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary, #1a1a2e);
+            border-bottom: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .demo-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent, #7c3aed);
+            text-decoration: none;
+        }
+
+        .demo-nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .demo-nav a {
+            color: var(--text-secondary, #a0a0b8);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .demo-nav a:hover {
+            color: var(--text-primary, #ffffff);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+
+        @media (max-width: 1024px) {
+            .demo-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Demo Header -->
+    <header class="demo-header">
+        <a href="/" class="demo-logo">← Back to Portfolio</a>
+        <nav class="demo-nav">
+            <span class="status-badge">Demo Mode</span>
+            <span style="color: var(--text-secondary); font-size: 0.875rem;">
+                Changes are stored in sessionStorage only
+            </span>
+        </nav>
+    </header>
+
+    <!-- Demo Container -->
+    <div class="demo-container">
+        <!-- Editor Panel -->
+        <div class="editor-panel">
+            <div class="editor-header">
+                <span class="editor-title">📝 JSON Editor</span>
+                <div class="editor-actions">
+                    <button class="btn btn-secondary" id="reset-btn">Reset</button>
+                    <button class="btn btn-primary" id="run-btn">▶ Run</button>
+                </div>
+            </div>
+            <div class="error-message" id="error-message"></div>
+            <textarea class="editor-textarea" id="json-editor" spellcheck="false"
+                placeholder="Loading portfolio JSON..."></textarea>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="preview-panel">
+            <div class="preview-header">
+                <span class="preview-title">👁️ Live Preview</span>
+                <div class="theme-switcher">
+                    <button class="theme-btn" data-theme="minimal">Minimal</button>
+                    <button class="theme-btn active" data-theme="modern">Modern</button>
+                    <button class="theme-btn" data-theme="elegant">Elegant</button>
+                    <button class="theme-btn" data-theme="retro">Retro</button>
+                </div>
+            </div>
+            <iframe class="preview-iframe" id="preview-iframe" src="/?demo=1" title="Portfolio Preview"></iframe>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/js/theme.js"></script>
+    <script type="module" src="/js/demo.js"></script>
+</body>
+
+</html>

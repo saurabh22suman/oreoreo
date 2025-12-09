@@ -1,0 +1,19 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies)
+RUN npm install
+
+# Copy application files
+COPY . .
+
+# Create data directory
+RUN mkdir -p data
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,297 @@
+Purpose
+
+This document defines the architecture, constraints, coding standards, and functional requirements of the JSON-driven portfolio system. It ensures consistent implementation across UI, backend, themes, demo mode, and RAG chat.
+
+1. High-Level Architecture
+
+The system consists of:
+
+1.1 Public Portfolio
+
+Fetches portfolio.json via /api/portfolio.
+
+Renders profile, skills, projects, experience, socials.
+
+Applies selected visual theme.
+
+Contains an integrated chatbox (RAG-based).
+
+All content is fully data-driven.
+
+1.2 Admin Panel
+
+Basic auth protected.
+
+Allows uploading a new JSON file.
+
+Validates and replaces the main portfolio.json.
+
+Stores backups of older versions.
+
+1.3 Demo Mode
+
+Lets users experiment with the portfolio JSON.
+
+Local-only editing.
+
+Uses sessionStorage for storing modified JSON.
+
+Preview rendered inside an iframe using /?demo=1.
+
+Never touches server state.
+
+1.4 Theme Engine
+
+One base.css file for structural layout.
+
+Multiple theme CSS bundles:
+
+css/theme-minimal.css
+css/theme-modern.css
+css/theme-elegant.css
+css/theme-retro.css
+
+
+Theme switching handled via JS by swapping the theme stylesheet.
+
+Persist selected theme using localStorage.
+
+1.5 RAG Chatbox
+
+Floating chat widget available on all public pages.
+
+Server performs:
+
+Chunking of portfolio data.
+
+Embedding generation.
+
+Vector similarity retrieval.
+
+LLM completion with API key.
+
+API key must only exist on the server.
+
+1.6 Theme Analytics
+
+Tracks which theme users select.
+
+Frontend sends POST events to /api/theme-analytics.
+
+Backend increments counters in theme-analytics.json.
+
+Provide admin-only dashboard for viewing theme statistics.
+
+No personal user data collected.
+
+2. Folder Structure Standard
+root/
+  server.js
+  package.json
+  .env
+
+  data/
+    portfolio.json
+    portfolio.backup-*.json
+    theme-analytics.json
+
+  public/
+    index.html
+    demo.html
+    admin.html
+    chatbox.html
+
+    css/
+      base.css
+      theme-minimal.css
+      theme-modern.css
+      theme-elegant.css
+      theme-retro.css
+
+    js/
+      render.js
+      demo.js
+      theme.js
+      chatbox.js
+
+  rag/
+    embed.js
+    retriever.js
+    llm.js
+    chunker.js
+
+3. Backend Standards
+3.1 Framework
+
+Use Express.js.
+
+3.2 Routes
+
+GET /api/portfolio
+
+POST /api/upload (auth)
+
+POST /api/theme-analytics
+
+POST /api/chat
+
+GET /admin/theme-stats (auth)
+
+3.3 Auth
+
+Basic auth.
+
+Credentials loaded from environment variables.
+
+3.4 JSON Storage
+
+Use filesystem only.
+
+Validate JSON structure before saving.
+
+Create timestamped backups automatically.
+
+4. Frontend Standards
+4.1 Rendering
+
+Render all data from JSON.
+
+Avoid inline styles; use CSS classes.
+
+Keep JS modular:
+
+render.js → portfolio rendering
+
+theme.js → theme switching and persistence
+
+demo.js → demo JSON editor + iframe preview
+
+chatbox.js → RAG chat interface
+
+4.2 Demo Mode
+
+Use a textarea or Ace/Monaco editor.
+
+On “Run,” store JSON to sessionStorage.
+
+Reload preview with query flag.
+
+4.3 Theme Switcher
+
+Swap CSS file via:
+
+document.getElementById("theme-css").href = `/css/theme-${name}.css`;
+
+
+Save selection in localStorage.
+
+4.4 Chatbox
+
+Floating icon → opens chat window.
+
+Messages sent to /api/chat.
+
+Supports optional streaming.
+
+5. RAG System Standards
+5.1 Chunking
+
+Split JSON content into logical text blocks:
+
+Summary
+
+Skills (one per line)
+
+Projects (each description)
+
+Experience details
+
+5.2 Embeddings
+
+Generate embeddings on server startup.
+
+Store in memory; do not persist.
+
+5.3 Retrieval
+
+Use cosine similarity.
+
+Select top N relevant chunks.
+
+5.4 LLM Calls
+
+Use server-side API wrapper.
+
+Never expose secrets to frontend.
+
+6. Analytics Standards
+6.1 Data
+
+theme-analytics.json structure:
+
+{
+  "minimal": 12,
+  "modern": 48,
+  "elegant": 7,
+  "retro": 3
+}
+
+6.2 Privacy
+
+Do not track IPs or identifiers.
+
+Only record theme names and timestamps.
+
+6.3 Dashboard
+
+Simple bar chart showing counts.
+
+Admin-only access.
+
+7. Coding Style
+
+Use ES modules.
+
+Use async/await.
+
+Use try/catch for all JSON or file operations.
+
+Keep functions small and focused.
+
+Split logic into modules.
+
+No global mutable state except RAG memory embedding array.
+
+8. Performance
+
+Keep all theme files lightweight.
+
+Serve static assets with caching enabled.
+
+RAG chunking and embedding only done on startup.
+
+No heavy libraries unless absolutely required.
+
+9. Security
+
+Sanitize user inputs.
+
+Validate uploaded JSON fully.
+
+Do not store API keys client-side.
+
+Protect admin routes with basic auth.
+
+10. Testing
+
+Test with multiple JSON structures.
+
+Test invalid JSON upload.
+
+Test demo mode override behavior.
+
+Test theme switch persistence.
+
+Test chat responses and retrieval relevance.
+
+This specification serves as the governing blueprint for the entire project. All code generated by the AI coding agent must comply with these standards.
