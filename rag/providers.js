@@ -59,7 +59,12 @@ export function isProviderConfigured() {
     const config = getProviderConfig();
     const apiKey = process.env[config.envKey];
 
-    return apiKey && !apiKey.startsWith('sk-your') && apiKey.length > 10;
+    // Check for common placeholder patterns and minimum length
+    return (
+        apiKey &&
+        !/your[-_]/i.test(apiKey) &&
+        apiKey.length > 10
+    );
 }
 
 /**
