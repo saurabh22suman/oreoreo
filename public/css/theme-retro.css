@@ -596,6 +596,19 @@ body::before {
     box-shadow: 0 0 25px rgba(0, 255, 136, 0.3);
 }
 
+/* Certifications */
+.certification-card {
+    background: var(--gradient-card);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 15px rgba(83, 52, 131, 0.3);
+    border-radius: var(--border-radius);
+}
+
+.certification-card:hover {
+    border-color: var(--accent-tertiary);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
+}
+
 .education-degree {
     color: var(--text-primary);
     text-transform: uppercase;

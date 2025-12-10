@@ -235,7 +235,8 @@ h6 {
 .skill-card,
 .project-card,
 .experience-item,
-.education-card {
+.education-card,
+.certification-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -277,7 +278,8 @@ h6 {
 .skill-card:hover,
 .project-card:hover,
 .experience-item:hover,
-.education-card:hover {
+.education-card:hover,
+.certification-card:hover {
     border-color: var(--accent-light);
     transform: translateY(-4px);
     box-shadow: 0 10px 20px var(--shadow-color);
