@@ -264,6 +264,28 @@ function renderEducation(education) {
 }
 
 /**
+ * Render the interests section
+ */
+function renderInterests(interests) {
+  if (!interests || interests.length === 0) return '';
+
+  const interestTags = interests.map(interest =>
+    `<span class="interest-tag">${escapeHtml(interest)}</span>`
+  ).join('');
+
+  return `
+    <section class="section interests-section" id="interests">
+      <div class="container">
+        <h2 class="section-title">Interests</h2>
+        <div class="interests-grid">
+          ${interestTags}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+/**
  * Escape HTML to prevent XSS
  */
 function escapeHtml(text) {
@@ -319,7 +341,8 @@ async function renderPortfolio() {
     renderProjects(data.projects),
     renderExperience(data.experience),
     renderCertifications(data.certifications),
-    renderEducation(data.education)
+    renderEducation(data.education),
+    renderInterests(data.interests)
   ].join('');
 
   contentEl.innerHTML = html;

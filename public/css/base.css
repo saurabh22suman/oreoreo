@@ -600,6 +600,38 @@ body {
   color: white;
 }
 
+/* Interests */
+.interests-section {
+  padding-bottom: 3rem;
+}
+
+.interests-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.interest-tag {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: var(--border-radius-pill);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-fast);
+}
+
+.interest-tag:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
 /* Footer */
 .footer {
   padding: 2rem 0;
@@ -609,7 +641,8 @@ body {
 }
 
 .footer-text {
-  font-size: 0.875rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
 }
 
 /* Demo Mode Button */

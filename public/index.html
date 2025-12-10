@@ -119,9 +119,11 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p class="footer-text">Built with ❤️</p>
+      <p class="footer-text">Made with ❤️ | © <span id="current-year"></span> Saurabh Suman. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
 
   <!-- Scripts -->
   <script type="module" src="/js/theme.js"></script>
