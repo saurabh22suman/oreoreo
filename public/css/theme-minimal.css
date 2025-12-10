@@ -209,7 +209,8 @@ body::after {
 .skill-card,
 .project-card,
 .experience-item,
-.education-card {
+.education-card,
+.certification-card {
     background: white;
     border: 2px solid var(--madhubani-black);
     border-radius: 4px;
@@ -227,7 +228,8 @@ body::after {
 /* Stagger Animations */
 .skill-card,
 .project-card,
-.experience-item {
+.experience-item,
+.certification-card {
     animation: floatPaper 6s ease-in-out infinite;
 }
 
