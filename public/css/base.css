@@ -1,25 +1,23 @@
 /* ============================================
    BASE.CSS - Structural Layout & Reset
    This file provides layout structure only.
-   Colors and styling come from theme CSS files.
+   Colors, shadows, radii, and visuals come from theme CSS files.
    ============================================ */
 
 /* CSS Reset */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Root Variables for Layout */
+/* Root Variables for Layout Only */
 :root {
   --max-width: 1200px;
   --section-spacing: 4rem;
   --card-padding: 1.5rem;
-  --border-radius: 12px;
-  --border-radius-sm: 8px;
-  --transition-fast: 0.2s ease;
-  --transition-medium: 0.3s ease;
 }
 
 /* Typography Base */
@@ -29,9 +27,9 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   line-height: 1.6;
   min-height: 100vh;
+  /* Font family defined in theme */
 }
 
 /* Container */
@@ -47,66 +45,191 @@ body {
   top: 0;
   z-index: 100;
   padding: 1rem 0;
-  backdrop-filter: blur(10px);
+  /* Visuals (backdrop-filter, bg) in theme */
 }
 
 .header-content {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
+  gap: 2rem;
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
   text-decoration: none;
+  /* Color in theme */
 }
 
 .nav {
   display: flex;
   gap: 2rem;
   align-items: center;
+  justify-self: center;
 }
 
 .nav-link {
   text-decoration: none;
   font-weight: 500;
-  transition: var(--transition-fast);
+  /* Transitions defined in theme */
 }
 
-/* Theme Switcher */
-.theme-switcher {
+/* Theme Controls */
+.theme-controls {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   align-items: center;
 }
 
-.theme-btn {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--border-radius-sm);
+.btn-theme-popup {
+  padding: 0.5rem 1.25rem;
+  border-style: solid;
+  border-width: 1px;
+  /* Border color, radius, bg, color in theme */
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  transition: var(--transition-fast);
+  white-space: nowrap;
 }
 
-.theme-btn.active {
-  transform: scale(1.05);
+.btn-theme-like {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Color in theme */
+}
+
+.heart-icon {
+  width: 24px;
+  height: 24px;
+  transition: fill 0.3s ease, transform 0.2s ease;
+}
+
+.btn-theme-like.liked .heart-icon {
+  fill: var(--accent, #e91e63);
+  stroke: var(--accent, #e91e63);
+}
+
+/* Theme Modal */
+.theme-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  /* fade in handled by opacity transition in theme or here? 
+     Structure: display flex/none. 
+     Visual: bg color (dimming), backdrop filter.
+  */
+}
+
+.theme-modal-overlay.open {
+  display: flex;
+}
+
+.theme-modal-content {
+  width: 90%;
+  max-width: 400px;
+  overflow: hidden;
+  /* Visuals: bg, color, radius, shadow, transform/transition in theme */
+}
+
+.theme-modal-header {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Border bottom in theme */
+}
+
+.theme-modal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.theme-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  /* Color/opacity in theme */
+}
+
+.theme-list {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  cursor: pointer;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+  /* Radius, bg, hover bg, active border in theme */
+}
+
+.theme-info {
+  width: 100%;
+}
+
+.theme-name {
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.theme-badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* Colors in theme */
+}
+
+.active-indicator {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-left: 0.5rem;
+  /* Color in theme */
 }
 
 /* Hero Section */
 .hero {
   padding: var(--section-spacing) 0;
   text-align: center;
+  /* Background in theme */
 }
 
 .hero-avatar {
   width: 150px;
   height: 150px;
-  border-radius: 50%;
   margin-bottom: 1.5rem;
   object-fit: cover;
+  /* Border-radius, border, shadow in theme */
 }
 
 .hero-name {
@@ -118,7 +241,6 @@ body {
 .hero-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  opacity: 0.8;
 }
 
 .hero-location {
@@ -134,7 +256,6 @@ body {
   max-width: 700px;
   margin: 0 auto 2rem;
   font-size: 1.1rem;
-  line-height: 1.8;
 }
 
 /* Social Links */
@@ -151,13 +272,8 @@ body {
   justify-content: center;
   width: 48px;
   height: 48px;
-  border-radius: 50%;
   text-decoration: none;
-  transition: var(--transition-fast);
-}
-
-.social-link:hover {
-  transform: translateY(-3px);
+  /* radius, transition, hover, bg, color in theme */
 }
 
 .social-link svg {
@@ -168,6 +284,7 @@ body {
 /* Section Styling */
 .section {
   padding: var(--section-spacing) 0;
+  /* Background nth-child in theme */
 }
 
 .section-title {
@@ -186,12 +303,7 @@ body {
 
 .skill-card {
   padding: var(--card-padding);
-  border-radius: var(--border-radius);
-  transition: var(--transition-medium);
-}
-
-.skill-card:hover {
-  transform: translateY(-5px);
+  /* radius, bg, border, shadow, hover in theme */
 }
 
 .skill-category {
@@ -208,9 +320,9 @@ body {
 
 .skill-tag {
   padding: 0.375rem 0.75rem;
-  border-radius: 20px;
   font-size: 0.875rem;
   font-weight: 500;
+  /* radius, bg, border, color in theme */
 }
 
 /* Projects Grid */
@@ -222,12 +334,7 @@ body {
 
 .project-card {
   padding: var(--card-padding);
-  border-radius: var(--border-radius);
-  transition: var(--transition-medium);
-}
-
-.project-card:hover {
-  transform: translateY(-5px);
+  /* radius, bg, border, shadow, hover in theme */
 }
 
 .project-title {
@@ -238,7 +345,6 @@ body {
 
 .project-description {
   margin-bottom: 1rem;
-  line-height: 1.7;
 }
 
 .project-tech {
@@ -250,9 +356,9 @@ body {
 
 .tech-tag {
   padding: 0.25rem 0.625rem;
-  border-radius: 15px;
   font-size: 0.75rem;
   font-weight: 600;
+  /* radius, bg, color in theme */
 }
 
 .project-links {
@@ -265,14 +371,13 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  border-radius: var(--border-radius-sm);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.875rem;
-  transition: var(--transition-fast);
+  /* radius, transition, bg, color, border in theme */
 }
 
-/* Experience Timeline */
+/* Experience Timeline structure */
 .experience-timeline {
   max-width: 800px;
   margin: 0 auto;
@@ -283,18 +388,19 @@ body {
   padding: var(--card-padding);
   padding-left: 2.5rem;
   margin-bottom: 2rem;
-  border-left: 3px solid;
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  border-left-style: solid;
+  /* border-width, radius, bg, colors in theme */
 }
 
 .experience-item::before {
   content: '';
   position: absolute;
   left: -8px;
+  /* Alignment tweak, might need adjustment if border width changes, but mostly structural */
   top: var(--card-padding);
   width: 14px;
   height: 14px;
-  border-radius: 50%;
+  /* radius, bg, border in theme */
 }
 
 .experience-role {
@@ -312,11 +418,6 @@ body {
 .experience-period {
   font-size: 0.875rem;
   margin-bottom: 1rem;
-  opacity: 0.7;
-}
-
-.experience-description {
-  line-height: 1.7;
 }
 
 /* Education */
@@ -330,8 +431,8 @@ body {
 
 .education-card {
   padding: var(--card-padding);
-  border-radius: var(--border-radius);
   text-align: center;
+  /* radius, bg, border, shadow in theme */
 }
 
 .education-degree {
@@ -347,7 +448,6 @@ body {
 
 .education-year {
   font-size: 0.875rem;
-  opacity: 0.7;
 }
 
 /* Footer */
@@ -355,11 +455,37 @@ body {
   padding: 2rem 0;
   text-align: center;
   margin-top: var(--section-spacing);
+  /* bg, border-top in theme */
 }
 
 .footer-text {
   font-size: 0.875rem;
-  opacity: 0.7;
+}
+
+/* Demo Mode Button */
+.demo-btn {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  /* radius, shadow, transition, bg, color in theme */
+}
+
+.demo-btn svg {
+  flex-shrink: 0;
+}
+
+.demo-btn-label {
+  font-weight: 600;
 }
 
 /* Chatbox Container */
@@ -371,21 +497,15 @@ body {
 }
 
 .chatbox-toggle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  /* width/height removed to allow auto-sizing for text labels */
   border: none;
   cursor: pointer;
   font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition-fast);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-.chatbox-toggle:hover {
-  transform: scale(1.1);
+  white-space: nowrap;
+  /* radius, shadow, transition, bg, color in theme */
 }
 
 .chatbox-window {
@@ -394,11 +514,10 @@ body {
   right: 0;
   width: 380px;
   height: 500px;
-  border-radius: var(--border-radius);
   display: none;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  /* radius, bg, border, shadow in theme */
 }
 
 .chatbox-window.open {
@@ -410,6 +529,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* bg, color, border-bottom in theme */
 }
 
 .chatbox-header h3 {
@@ -422,12 +542,7 @@ body {
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
-  opacity: 0.7;
-  transition: var(--transition-fast);
-}
-
-.chatbox-close:hover {
-  opacity: 1;
+  /* opacity, color, transition in theme */
 }
 
 .chatbox-messages {
@@ -437,14 +552,15 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  /* bg in theme */
 }
 
 .message {
   max-width: 85%;
   padding: 0.75rem 1rem;
-  border-radius: var(--border-radius-sm);
   line-height: 1.5;
   font-size: 0.9rem;
+  /* radius, bg, color, border in theme */
 }
 
 .message.user {
@@ -459,24 +575,25 @@ body {
   padding: 1rem;
   display: flex;
   gap: 0.5rem;
+  /* bg, border-top in theme */
 }
 
 .chatbox-input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border-radius: var(--border-radius-sm);
-  border: 1px solid;
+  border-style: solid;
+  border-width: 1px;
   font-size: 0.9rem;
   outline: none;
+  /* radius, bg, color, border-color, shadow in theme */
 }
 
 .chatbox-send {
   padding: 0.75rem 1.25rem;
   border: none;
-  border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-weight: 600;
-  transition: var(--transition-fast);
+  /* radius, bg, color, hover in theme */
 }
 
 /* Loading Spinner */
@@ -484,14 +601,27 @@ body {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid;
-  border-top-color: transparent;
+  border-style: solid;
+  border-width: 2px;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  /* color/border color in theme */
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0.5rem;
 }
 
 /* Responsive */
@@ -499,21 +629,85 @@ body {
   .hero-name {
     font-size: 2rem;
   }
-  
+
   .hero-title {
     font-size: 1.25rem;
   }
-  
-  .nav {
+
+  /* Adjust Header Layout for Mobile */
+  .header-content {
+    display: flex;
+    justify-content: space-between;
     gap: 1rem;
+    position: relative;
   }
-  
+
+  /* Collapsible Nav */
+  .mobile-menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--bg-card, #ffffff);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .nav-link {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
   .projects-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .chatbox-window {
     width: calc(100vw - 2rem);
     right: -1rem;
+  }
+
+  /* Compact Chatbox Toggle - Forced Overrides */
+  .chatbox-label {
+    display: none !important;
+  }
+
+  .chatbox-toggle {
+    padding: 0 !important;
+    border-radius: 50% !important;
+    width: 56px !important;
+    height: 56px !important;
+    justify-content: center !important;
+  }
+
+  /* Compact Demo Button - Forced Overrides */
+  .demo-btn-label {
+    display: none !important;
+  }
+
+  .demo-btn {
+    padding: 0 !important;
+    border-radius: 50% !important;
+    width: 56px !important;
+    height: 56px !important;
+    justify-content: center !important;
   }
 }

@@ -1,143 +1,207 @@
 /* ============================================
-   THEME: ELEGANT
-   Warm, sophisticated with gold/cream tones
+   THEME: UBUNTU (Formerly Elegant)
+   Inspired by the iconic Ubuntu "Yaru" styling
+   Colors: Aubergine, Orange, Dark Gray
    ============================================ */
 
 :root {
     /* Colors */
-    --bg-primary: #faf8f5;
-    --bg-secondary: #f5f2ed;
-    --bg-card: #ffffff;
-    --text-primary: #2d2a26;
-    --text-secondary: #6b645a;
-    --accent: #b8860b;
-    --accent-light: #daa520;
-    --accent-hover: #a67908;
-    --accent-secondary: #8b4513;
-    --border-color: #e8e4dd;
-    --shadow-color: rgba(184, 134, 11, 0.1);
+    --accent: #E95420;
+    /* Ubuntu Orange */
+    --accent-hover: #C74215;
+    --accent-light: #F97C52;
+    --accent-secondary: #772953;
+    /* Aubergine Mid */
+
+    --bg-primary: #300A24;
+    /* Canonical Aubergine */
+    --bg-secondary: #2C001E;
+    /* Darker Aubergine */
+    --bg-card: #3E1633;
+    /* Lighter Aubergine/Card */
+
+    --text-primary: #FFFFFF;
+    --text-secondary: #AEA79F;
+    /* Warm Gray */
+
+    --border-color: #4C1F3D;
+    --shadow-color: rgba(0, 0, 0, 0.4);
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, #faf8f5 0%, #f5f2ed 100%);
-    --gradient-card: linear-gradient(145deg, #ffffff 0%, #faf8f5 100%);
-    --gradient-accent: linear-gradient(135deg, #b8860b 0%, #daa520 100%);
+    --gradient-hero: linear-gradient(180deg, #772953 0%, #2C001E 100%);
+    --gradient-card: linear-gradient(145deg, #3E1633 0%, #29081E 100%);
+
+    /* Shapes & Animation */
+    --border-radius: 20px;
+    --border-radius-sm: 12px;
+    --border-radius-pill: 50px;
+
+    --transition-fast: 0.15s ease-out;
+    --transition-medium: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Body */
+/* Animations */
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ubuntuFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes rotateLogo {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Base Overrides */
 body {
     background: var(--bg-primary);
     color: var(--text-primary);
-    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-family: 'Ubuntu', sans-serif;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* Override for headings */
-.hero-name,
-.section-title,
-.skill-category,
-.project-title,
-.experience-role,
-.education-degree {
-    font-family: 'Playfair Display', 'Georgia', serif;
+/* Background Linux Logo */
+body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 60vh;
+    height: 60vh;
+    /* Minimalistic Penguin Outline */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='0.5' stroke-opacity='0.1' d='M50 10 C30 10 15 30 15 50 C15 75 35 90 50 90 C65 90 85 75 85 50 C85 30 70 10 50 10 Z M35 40 A5 5 0 1 1 45 40 A5 5 0 1 1 35 40 M55 40 A5 5 0 1 1 65 40 A5 5 0 1 1 55 40 M50 55 Q60 65 50 75 Q40 65 50 55 Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translate(-50%, -50%);
+    animation: rotateLogo 60s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500;
+    /* Ubuntu bold is quite thick, 500 is distinctive enough */
+    letter-spacing: -0.5px;
 }
 
 /* Header */
 .header {
-    background: rgba(250, 248, 245, 0.95);
+    background: rgba(44, 0, 30, 0.95);
+    /* #2C001E */
     border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(8px);
 }
 
 .logo {
+    color: var(--text-primary);
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.logo::after {
+    content: '.';
     color: var(--accent);
-    font-family: 'Playfair Display', 'Georgia', serif;
-    letter-spacing: 2px;
 }
 
 .nav-link {
     color: var(--text-secondary);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
+    font-weight: 400;
+    transition: var(--transition-fast);
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--accent);
-}
-
-/* Theme Buttons */
-.theme-btn {
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-    font-family: 'Inter', sans-serif;
-}
-
-.theme-btn:hover {
-    background: var(--bg-card);
-    color: var(--accent);
-    border-color: var(--accent);
-}
-
-.theme-btn.active {
-    background: var(--gradient-accent);
-    color: #ffffff;
-    border-color: transparent;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--accent);
 }
 
 /* Hero */
 .hero {
+    background: transparent;
+    /* Let body bg shine through if needed, but here we keep gradient overlay logic */
     background: var(--gradient-hero);
     position: relative;
+    overflow: hidden;
 }
 
-.hero::before {
+/* Iconic curve/noise texture from Ubuntu wallpapers */
+.hero::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b8860b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
     pointer-events: none;
+    animation: ubuntuFloat 12s infinite ease-in-out;
 }
 
 .hero-avatar {
-    border: 4px solid var(--accent);
-    box-shadow: 0 8px 40px var(--shadow-color);
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px var(--shadow-color);
 }
 
 .hero-name {
-    color: var(--text-primary);
-    letter-spacing: 3px;
+    font-weight: 300;
+    font-size: 3.5rem;
 }
 
 .hero-title {
     color: var(--accent);
-    font-style: italic;
-    letter-spacing: 2px;
+    font-weight: 500;
 }
 
-.hero-location {
-    color: var(--text-secondary);
-}
-
+.hero-location,
 .hero-summary {
     color: var(--text-secondary);
-    font-size: 1.2rem;
-    font-style: italic;
 }
 
 /* Social Links */
 .social-link {
-    background: transparent;
-    color: var(--accent);
-    border: 2px solid var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: var(--transition-fast);
 }
 
 .social-link:hover {
     background: var(--accent);
-    color: #ffffff;
-    box-shadow: 0 4px 15px var(--shadow-color);
+    border-color: var(--accent);
+    color: #FFF;
+    transform: translateY(-2px);
 }
 
 /* Sections */
@@ -151,144 +215,303 @@ body {
 
 .section-title {
     color: var(--text-primary);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-size: 1.75rem;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
 }
 
 .section-title::after {
-    content: '✦';
+    content: '';
     display: block;
-    color: var(--accent);
-    margin-top: 0.75rem;
-    font-size: 1rem;
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    opacity: 0.8;
 }
 
-/* Skill Cards */
-.skill-card {
+/* Cards (Yaru Style) */
+.skill-card,
+.project-card,
+.experience-item,
+.education-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    box-shadow: 0 4px 20px var(--shadow-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: var(--transition-medium);
+    animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
-.skill-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 8px 35px var(--shadow-color);
+/* Stagger Animations */
+.skill-card:nth-child(1) {
+    animation-delay: 0.1s;
 }
 
-.skill-category {
-    color: var(--accent);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-size: 1rem;
+.skill-card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.skill-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.skill-card:nth-child(n+4) {
+    animation-delay: 0.25s;
+}
+
+.project-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.project-card:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.project-card:nth-child(n+3) {
+    animation-delay: 0.4s;
+}
+
+/* Hover Effects */
+.skill-card:hover,
+.project-card:hover,
+.experience-item:hover,
+.education-card:hover {
+    border-color: var(--accent-light);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+/* Specific Card Internals */
+.skill-category,
+.project-title,
+.experience-role,
+.education-degree {
+    color: var(--text-primary);
 }
 
 .skill-tag {
-    background: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-    font-family: 'Inter', sans-serif;
-}
-
-/* Project Cards */
-.project-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 20px var(--shadow-color);
-}
-
-.project-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 12px 45px var(--shadow-color);
-}
-
-.project-title {
-    color: var(--text-primary);
-    letter-spacing: 1px;
-}
-
-.project-description {
-    color: var(--text-secondary);
-    font-style: italic;
+    background: rgba(233, 84, 32, 0.15);
+    /* Orange tint */
+    color: var(--accent-light);
+    border: 1px solid rgba(233, 84, 32, 0.3);
+    border-radius: var(--border-radius-pill);
+    font-weight: 500;
 }
 
 .tech-tag {
-    background: var(--accent);
-    color: #ffffff;
-    font-family: 'Inter', sans-serif;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
 }
 
 .project-link {
     background: transparent;
     color: var(--accent);
     border: 1px solid var(--accent);
-    font-family: 'Inter', sans-serif;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 .project-link:hover {
     background: var(--accent);
-    color: #ffffff;
+    color: #FFF;
 }
 
-/* Experience */
 .experience-item {
-    background: var(--bg-card);
-    border-left-color: var(--accent);
-    border-left-width: 2px;
-    box-shadow: 0 4px 20px var(--shadow-color);
+    border-left: 4px solid var(--accent);
 }
 
-.experience-item::before {
-    background: var(--accent);
-    border: 3px solid var(--bg-primary);
-}
-
-.experience-role {
-    color: var(--text-primary);
-    letter-spacing: 1px;
-}
-
-.experience-company {
-    color: var(--accent);
-    font-style: italic;
-}
-
-.experience-period {
-    color: var(--text-secondary);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    font-family: 'Inter', sans-serif;
-}
-
-.experience-description {
-    color: var(--text-secondary);
-}
-
-/* Education */
-.education-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 20px var(--shadow-color);
-}
-
-.education-card:hover {
-    border-color: var(--accent);
-}
-
-.education-degree {
-    color: var(--text-primary);
-    letter-spacing: 1px;
-}
-
+.experience-company,
 .education-institution {
-    color: var(--accent);
-    font-style: italic;
+    color: var(--accent-light);
 }
 
-.education-year {
-    color: var(--text-secondary);
-    font-family: 'Inter', sans-serif;
+/* Theme Controls */
+.theme-controls button {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border: none;
+    transition: var(--transition-fast);
+}
+
+.theme-controls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Modal */
+.theme-modal-overlay {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.theme-modal-content {
+    background: #3E1633;
+    border: 1px solid #5C234B;
+    color: #FFF;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.theme-modal-header {
+    border-bottom: 1px solid #5C234B;
+}
+
+.theme-option {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid transparent;
+}
+
+.theme-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-secondary);
+}
+
+.theme-option.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #FFF;
+}
+
+.theme-option.active .active-indicator {
+    color: #FFF;
+}
+
+/* Chatbox - Ubuntu Style */
+.chatbox-toggle {
+    background: var(--accent);
+    color: #FFF;
+    box-shadow: 0 4px 15px rgba(233, 84, 32, 0.4);
+    border-radius: var(--border-radius-pill);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    border: 2px solid transparent;
+}
+
+.chatbox-toggle:hover {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(233, 84, 32, 0.5);
+}
+
+.chatbox-label {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.95rem;
+}
+
+/* Demo Mode Button */
+.demo-btn {
+    background: var(--accent);
+    color: #FFF;
+    box-shadow: 0 4px 15px rgba(233, 84, 32, 0.4);
+    border-radius: var(--border-radius-pill);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+}
+
+.demo-btn:hover {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(233, 84, 32, 0.5);
+}
+
+.demo-btn-label {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.95rem;
+}
+
+.demo-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.demo-btn:hover svg {
+    transform: rotate(90deg);
+}
+
+.chatbox-window {
+    background: #F0F0F0;
+    /* Ubuntu classic internal window color is often light gray */
+    color: #333;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 5px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid #AAA;
+}
+
+/* Header mimics standard window title bar */
+.chatbox-header {
+    background: linear-gradient(180deg, #4c4c4c 0%, #3a3a3a 100%);
+    color: #FFF;
+    padding: 0.75rem 1rem;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.chatbox-close {
+    background: #E95420;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    transition: background 0.2s;
+}
+
+.chatbox-close:hover {
+    background: #C74215;
+}
+
+.chatbox-messages {
+    background: #FFF;
+}
+
+.message.user {
+    background: var(--accent);
+    color: #FFF;
+    border-radius: 12px 12px 0 12px;
+}
+
+.message.bot {
+    background: #F5F5F5;
+    color: #333;
+    border: 1px solid #DDD;
+    border-radius: 12px 12px 12px 0;
+}
+
+.chatbox-input-container {
+    background: #E6E6E6;
+    border-top: 1px solid #CCC;
+}
+
+.chatbox-input {
+    background: #FFF;
+    border: 1px solid #BBB;
+    color: #333;
+    border-radius: 4px;
+}
+
+.chatbox-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(233, 84, 32, 0.2);
+}
+
+.chatbox-send {
+    background: var(--accent);
+    color: #FFF;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.chatbox-send:hover {
+    background: var(--accent-hover);
 }
 
 /* Footer */
@@ -297,70 +520,23 @@ body {
     border-top: 1px solid var(--border-color);
 }
 
-.footer-text {
+/* Theme Buttons (Demo) */
+.theme-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
     color: var(--text-secondary);
-    letter-spacing: 1px;
+    border: 1px solid transparent;
+    transition: var(--transition-fast);
 }
 
-/* Chatbox */
-.chatbox-toggle {
-    background: var(--gradient-accent);
-    color: #ffffff;
-    box-shadow: 0 4px 20px var(--shadow-color);
-}
-
-.chatbox-window {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-}
-
-.chatbox-header {
-    background: var(--gradient-accent);
-    color: #ffffff;
-}
-
-.chatbox-close {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.chatbox-messages {
-    background: var(--bg-primary);
-}
-
-.message.user {
-    background: var(--gradient-accent);
-    color: #ffffff;
-}
-
-.message.bot {
-    background: var(--bg-card);
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
-    border: 1px solid var(--border-color);
 }
 
-.chatbox-input-container {
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
-}
-
-.chatbox-input {
-    background: var(--bg-card);
-    color: var(--text-primary);
-    border-color: var(--border-color);
-    font-family: 'Inter', sans-serif;
-}
-
-.chatbox-input:focus {
-    border-color: var(--accent);
-}
-
-.chatbox-send {
-    background: var(--gradient-accent);
-    color: #ffffff;
-    font-family: 'Inter', sans-serif;
-}
-
-.loading-spinner {
-    border-color: var(--accent);
-    border-top-color: transparent;
+.theme-btn.active {
+    background: var(--accent);
+    color: #FFF;
 }

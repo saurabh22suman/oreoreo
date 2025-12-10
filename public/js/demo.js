@@ -52,6 +52,24 @@ async function initDemo() {
             jsonEditor.selectionStart = jsonEditor.selectionEnd = start + 2;
         }
     });
+
+    // Welcome modal handling
+    const welcomeModal = document.getElementById('welcome-modal');
+    const getStartedBtn = document.getElementById('get-started-btn');
+
+    // Close modal when "Let's Try It!" is clicked
+    if (getStartedBtn && welcomeModal) {
+        getStartedBtn.addEventListener('click', () => {
+            welcomeModal.classList.remove('active');
+        });
+
+        // Also close on overlay click
+        welcomeModal.addEventListener('click', (e) => {
+            if (e.target === welcomeModal) {
+                welcomeModal.classList.remove('active');
+            }
+        });
+    }
 }
 
 /**
@@ -180,3 +198,22 @@ if (document.readyState === 'loading') {
 } else {
     initDemo();
 }
+
+// Add theme switcher logic
+const themeButtons = document.querySelectorAll('.theme-btn');
+themeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all
+        themeButtons.forEach(b => b.classList.remove('active'));
+        // Add to clicked
+        btn.classList.add('active');
+
+        const theme = btn.dataset.theme;
+
+        // Update localStorage so the iframe picks it up
+        localStorage.setItem('portfolio-theme', theme);
+
+        // Reload iframe to apply theme
+        refreshPreview();
+    });
+});

@@ -198,10 +198,182 @@
                 grid-template-rows: 1fr 1fr;
             }
         }
+
+        /* Welcome Modal */
+        .welcome-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .welcome-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .welcome-modal {
+            background: var(--bg-card, #16162a);
+            border: 1px solid var(--border-color, #2a2a4a);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideUp 0.4s ease-out;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary, #ffffff);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent, #7c3aed) 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-description {
+            color: var(--text-secondary, #a0a0b8);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .welcome-highlight {
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .welcome-highlight-title {
+            font-weight: 600;
+            color: var(--accent, #7c3aed);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-highlight-text {
+            color: var(--text-secondary, #a0a0b8);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .welcome-features {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .welcome-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary, #1a1a2e);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary, #a0a0b8);
+        }
+
+        .welcome-feature-icon {
+            font-size: 1rem;
+        }
+
+        .btn-get-started {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            background: linear-gradient(135deg, var(--accent, #7c3aed) 0%, #06b6d4 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--border-radius-pill);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(124, 58, 237, 0.5);
+        }
     </style>
 </head>
 
 <body>
+    <!-- Welcome Modal -->
+    <div class="welcome-modal-overlay active" id="welcome-modal">
+        <div class="welcome-modal">
+            <div class="welcome-emoji">🚀</div>
+            <h2 class="welcome-title">Welcome to Portfolio Demo!</h2>
+            <p class="welcome-description">
+                This portfolio website is <strong>100% driven by JSON data</strong>.
+                Everything you see on the site — your profile, skills, projects, experience —
+                is rendered dynamically from a single JSON file.
+            </p>
+
+            <div class="welcome-highlight">
+                <div class="welcome-highlight-title">💡 How it works</div>
+                <div class="welcome-highlight-text">
+                    Simply edit the JSON on the left panel and click <strong>Run</strong> to see
+                    your changes instantly reflected in the live preview on the right.
+                    No coding knowledge required!
+                </div>
+            </div>
+
+            <div class="welcome-features">
+                <div class="welcome-feature">
+                    <span class="welcome-feature-icon">✏️</span>
+                    <span>Edit JSON</span>
+                </div>
+                <div class="welcome-feature">
+                    <span class="welcome-feature-icon">👁️</span>
+                    <span>Live Preview</span>
+                </div>
+                <div class="welcome-feature">
+                    <span class="welcome-feature-icon">🎨</span>
+                    <span>Change Themes</span>
+                </div>
+            </div>
+
+            <button class="btn-get-started" id="get-started-btn">Let's Try It! →</button>
+        </div>
+    </div>
+
     <!-- Demo Header -->
     <header class="demo-header">
         <a href="/" class="demo-logo">← Back to Portfolio</a>

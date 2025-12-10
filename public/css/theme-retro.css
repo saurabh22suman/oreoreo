@@ -23,6 +23,178 @@
     --gradient-card: linear-gradient(145deg, #16213e 0%, #0f3460 100%);
     --gradient-accent: linear-gradient(135deg, #e94560 0%, #ff6b8a 50%, #00ff88 100%);
     --gradient-neon: linear-gradient(90deg, #e94560, #00ff88, #00d4ff, #e94560);
+
+    /* Shapes & Animation */
+    --border-radius: 0px;
+    /* Retro hard edges */
+    --border-radius-sm: 0px;
+    --border-radius-pill: 0px;
+    --transition-fast: 0.1s steps(4);
+    /* Steps for digital feel */
+    --transition-medium: 0.2s linear;
+
+    font-family: 'Space Mono', 'Courier New', monospace;
+}
+
+/* Animations */
+@keyframes glitch-skew {
+    0% {
+        transform: skew(0deg);
+    }
+
+    20% {
+        transform: skew(-2deg);
+    }
+
+    40% {
+        transform: skew(2deg);
+    }
+
+    60% {
+        transform: skew(-1deg);
+    }
+
+    80% {
+        transform: skew(1deg);
+    }
+
+    100% {
+        transform: skew(0deg);
+    }
+}
+
+@keyframes text-flicker {
+    0% {
+        opacity: 0.1;
+    }
+
+    2% {
+        opacity: 1;
+    }
+
+    8% {
+        opacity: 0.1;
+    }
+
+    9% {
+        opacity: 1;
+    }
+
+    12% {
+        opacity: 0.1;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 0.7;
+    }
+
+    72% {
+        opacity: 0.2;
+    }
+
+    77% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scanline-move {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes slide-in-retro {
+    0% {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Glitch Effects on hover */
+.hero-name:hover,
+.section-title:hover,
+.logo:hover {
+    animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: var(--accent-tertiary);
+}
+
+/* Initial Load Flicker */
+.hero-name,
+.hero-title {
+    animation: text-flicker 2s linear forwards;
+}
+
+/* Card Entrances - Mechanical Slide */
+.skill-card,
+.project-card,
+.experience-item {
+    animation: slide-in-retro 0.3s steps(5) backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Scanline overlay for active cards */
+.project-card:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 255, 136, 0.05);
+    animation: text-flicker 0.1s infinite;
+    pointer-events: none;
+}
+
+.skill-card:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.skill-card:nth-child(even) {
+    animation-delay: 0.2s;
+}
+
+.project-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.project-card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.project-card:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+/* Typing cursor effect for some text */
+.education-degree::after {
+    content: '_';
+    animation: text-flicker 1s infinite;
 }
 
 /* Body with CRT-like scanlines */
@@ -68,6 +240,7 @@ body::before {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 0.75rem;
+    transition: var(--transition-fast);
 }
 
 .nav-link:hover,
@@ -76,28 +249,115 @@ body::before {
     text-shadow: 0 0 10px var(--accent-secondary);
 }
 
-/* Theme Buttons */
-.theme-btn {
+/* Theme Controls */
+.btn-theme-popup {
     background: var(--bg-secondary);
     color: var(--text-secondary);
     border: 2px solid var(--border-color);
     text-transform: uppercase;
     font-size: 0.7rem;
     letter-spacing: 1px;
+    border-radius: var(--border-radius);
+    transition: var(--transition-fast);
+    font-family: 'Space Mono', monospace;
 }
 
-.theme-btn:hover {
+.btn-theme-popup:hover {
     background: var(--bg-card);
     color: var(--accent-secondary);
     border-color: var(--accent-secondary);
     box-shadow: 0 0 15px var(--accent-secondary);
 }
 
-.theme-btn.active {
-    background: var(--accent);
-    color: #ffffff;
+.btn-theme-like {
+    color: var(--text-secondary);
+    transition: transform 0.1s steps(2);
+}
+
+.btn-theme-like:hover {
+    transform: scale(1.2);
+    color: var(--accent);
+}
+
+.btn-theme-like.liked {
+    color: #e94560;
+    fill: #e94560;
+}
+
+.btn-theme-like.liked .heart-icon {
+    fill: #e94560;
+    stroke: #e94560;
+}
+
+/* Theme Modal */
+.theme-modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transition: opacity 0.2s linear;
+}
+
+.theme-modal-overlay.open {
+    opacity: 1;
+}
+
+.theme-modal-content {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 30px var(--accent);
+    border: 2px solid var(--accent);
+    transform: scale(0.9);
+    transition: transform 0.2s steps(4);
+}
+
+.theme-modal-overlay.open .theme-modal-content {
+    transform: scale(1);
+}
+
+.theme-modal-header {
+    border-bottom: 2px solid var(--border-color);
+    font-family: 'Press Start 2P', monospace;
+}
+
+.theme-modal-close {
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+.theme-modal-close:hover {
+    color: var(--accent);
+    text-shadow: 0 0 5px var(--accent);
+}
+
+.theme-option {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition-fast);
+}
+
+.theme-option:hover {
+    background: var(--bg-card);
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 10pxVar(--accent-secondary);
+}
+
+.theme-option.active {
     border-color: var(--accent);
-    box-shadow: 0 0 20px var(--shadow-color);
+    background: rgba(233, 69, 96, 0.1);
+    box-shadow: 0 0 15px var(--shadow-color);
+}
+
+.active-indicator {
+    color: var(--accent);
+    text-shadow: 0 0 5px var(--accent);
+}
+
+.badge-popular {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border: 1px solid #f59e0b;
+    box-shadow: 0 0 5px #f59e0b;
 }
 
 /* Hero */
@@ -124,6 +384,7 @@ body::before {
     border: 4px solid var(--accent);
     box-shadow: 0 0 30px var(--shadow-color), 0 0 60px rgba(233, 69, 96, 0.2);
     animation: glow 2s ease-in-out infinite alternate;
+    border-radius: 0;
 }
 
 @keyframes glow {
@@ -164,6 +425,8 @@ body::before {
     color: var(--accent);
     border: 2px solid var(--accent);
     box-shadow: 0 0 10px var(--shadow-color);
+    border-radius: 0;
+    transition: var(--transition-fast);
 }
 
 .social-link:hover {
@@ -215,6 +478,8 @@ body::before {
     background: var(--gradient-card);
     border: 2px solid var(--border-color);
     box-shadow: 0 0 15px rgba(83, 52, 131, 0.3);
+    border-radius: var(--border-radius);
+    transition: var(--transition-medium);
 }
 
 .skill-card:hover {
@@ -233,6 +498,7 @@ body::before {
     background: rgba(0, 255, 136, 0.1);
     color: var(--accent-secondary);
     border: 1px solid var(--accent-secondary);
+    border-radius: 0;
 }
 
 /* Project Cards */
@@ -240,6 +506,8 @@ body::before {
     background: var(--gradient-card);
     border: 2px solid var(--border-color);
     box-shadow: 0 0 15px rgba(83, 52, 131, 0.3);
+    border-radius: var(--border-radius);
+    transition: var(--transition-medium);
 }
 
 .project-card:hover {
@@ -261,12 +529,15 @@ body::before {
     background: var(--accent);
     color: #ffffff;
     box-shadow: 0 0 10px var(--shadow-color);
+    border-radius: 0;
 }
 
 .project-link {
     background: rgba(0, 212, 255, 0.1);
     color: var(--accent-tertiary);
     border: 1px solid var(--accent-tertiary);
+    border-radius: 0;
+    transition: var(--transition-fast);
 }
 
 .project-link:hover {
@@ -281,12 +552,14 @@ body::before {
     border-left: 4px solid;
     border-image: var(--gradient-neon) 1;
     box-shadow: 0 0 15px rgba(83, 52, 131, 0.3);
+    /* border-radius: 0 inherited */
 }
 
 .experience-item::before {
     background: var(--accent);
     border: 3px solid var(--bg-primary);
     box-shadow: 0 0 10px var(--shadow-color);
+    border-radius: 0;
 }
 
 .experience-role {
@@ -304,7 +577,6 @@ body::before {
     color: var(--accent-tertiary);
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 0.75rem;
 }
 
 .experience-description {
@@ -316,6 +588,7 @@ body::before {
     background: var(--gradient-card);
     border: 2px solid var(--border-color);
     box-shadow: 0 0 15px rgba(83, 52, 131, 0.3);
+    border-radius: var(--border-radius);
 }
 
 .education-card:hover {
@@ -337,6 +610,35 @@ body::before {
     color: var(--accent-tertiary);
 }
 
+/* Theme Buttons (Demo) */
+.theme-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+    cursor: pointer;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 2px solid var(--border-color);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    font-family: 'Space Mono', monospace;
+    transition: var(--transition-fast);
+}
+
+.theme-btn:hover {
+    background: var(--bg-card);
+    color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 10px var(--accent-secondary);
+}
+
+.theme-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--shadow-color);
+}
+
 /* Footer */
 .footer {
     background: var(--bg-secondary);
@@ -347,7 +649,6 @@ body::before {
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 0.75rem;
 }
 
 /* Chatbox */
@@ -356,6 +657,53 @@ body::before {
     color: #ffffff;
     box-shadow: 0 0 30px var(--shadow-color);
     animation: pulse 2s ease-in-out infinite;
+    border-radius: 0;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+}
+
+.chatbox-toggle:hover {
+    box-shadow: 0 0 40px var(--shadow-color);
+}
+
+.chatbox-label {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+}
+
+/* Demo Mode Button */
+.demo-btn {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 0 30px var(--shadow-color);
+    animation: pulse 2s ease-in-out infinite;
+    border-radius: 0;
+    border: none;
+    transition: var(--transition-fast);
+}
+
+.demo-btn:hover {
+    box-shadow: 0 0 40px var(--shadow-color);
+}
+
+.demo-btn-label {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+}
+
+.demo-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.demo-btn:hover svg {
+    transform: rotate(90deg);
 }
 
 @keyframes pulse {
@@ -374,6 +722,7 @@ body::before {
     background: var(--bg-card);
     border: 2px solid var(--accent);
     box-shadow: 0 0 40px var(--shadow-color);
+    border-radius: 0;
 }
 
 .chatbox-header {
@@ -389,6 +738,7 @@ body::before {
 
 .chatbox-close {
     color: rgba(255, 255, 255, 0.8);
+    transition: var(--transition-fast);
 }
 
 .chatbox-messages {
@@ -399,12 +749,14 @@ body::before {
     background: var(--accent);
     color: #ffffff;
     box-shadow: 0 0 10px var(--shadow-color);
+    border-radius: 0;
 }
 
 .message.bot {
     background: var(--bg-card);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
+    border-radius: 0;
 }
 
 .chatbox-input-container {
@@ -416,6 +768,8 @@ body::before {
     background: var(--bg-card);
     color: var(--accent-secondary);
     border-color: var(--border-color);
+    border-radius: 0;
+    font-family: 'Space Mono', monospace;
 }
 
 .chatbox-input:focus {
@@ -423,15 +777,13 @@ body::before {
     box-shadow: 0 0 10px var(--shadow-color);
 }
 
-.chatbox-input::placeholder {
-    color: var(--text-secondary);
-}
-
 .chatbox-send {
     background: var(--accent);
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 1px;
+    border-radius: 0;
+    transition: var(--transition-fast);
 }
 
 .chatbox-send:hover {
@@ -441,4 +793,5 @@ body::before {
 .loading-spinner {
     border-color: var(--accent);
     border-top-color: transparent;
+    border-radius: 50%;
 }

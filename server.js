@@ -1,7 +1,7 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { readFile, writeFile, copyFile } from 'fs/promises';
+import { readFile, writeFile, copyFile, mkdir, unlink } from 'fs/promises';
 import { existsSync } from 'fs';
 import multer from 'multer';
 import dotenv from 'dotenv';
@@ -23,6 +23,7 @@ const PORT = process.env.PORT || 3000;
 const DATA_DIR = join(__dirname, 'data');
 const PORTFOLIO_PATH = join(DATA_DIR, 'portfolio.json');
 const ANALYTICS_PATH = join(DATA_DIR, 'theme-analytics.json');
+const UPLOADS_DIR = join(__dirname, 'public', 'uploads');
 
 // Middleware
 app.use(express.json());
@@ -111,32 +112,160 @@ app.post('/api/upload', basicAuth, upload.single('portfolio'), async (req, res) 
     }
 });
 
+// POST Upload Profile Photo (Auth Required)
+app.post('/api/upload-photo', basicAuth, upload.single('photo'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No photo file provided' });
+        }
+
+        // Validate file type
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(req.file.mimetype)) {
+            return res.status(400).json({ error: 'Invalid file type. Allowed: JPEG, PNG, GIF, WebP' });
+        }
+
+        // Limit file size (5MB)
+        if (req.file.size > 5 * 1024 * 1024) {
+            return res.status(400).json({ error: 'File too large. Maximum size: 5MB' });
+        }
+
+        // Ensure uploads directory exists
+        if (!existsSync(UPLOADS_DIR)) {
+            await mkdir(UPLOADS_DIR, { recursive: true });
+        }
+
+        // Generate unique filename
+        const ext = req.file.originalname.split('.').pop() || 'jpg';
+        const filename = `profile-photo.${ext}`;
+        const filePath = join(UPLOADS_DIR, filename);
+
+        // Delete old profile photo if exists (different extension)
+        const extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        for (const oldExt of extensions) {
+            const oldPath = join(UPLOADS_DIR, `profile-photo.${oldExt}`);
+            if (existsSync(oldPath) && oldPath !== filePath) {
+                try {
+                    await unlink(oldPath);
+                } catch (e) {
+                    // Ignore errors deleting old files
+                }
+            }
+        }
+
+        // Save the file
+        await writeFile(filePath, req.file.buffer);
+
+        // Update portfolio.json with the new photo path
+        const photoUrl = `/uploads/${filename}`;
+        try {
+            const portfolioData = JSON.parse(await readFile(PORTFOLIO_PATH, 'utf8'));
+            portfolioData.profile.photo = photoUrl;
+            await writeFile(PORTFOLIO_PATH, JSON.stringify(portfolioData, null, 2), 'utf8');
+        } catch (e) {
+            console.error('Failed to update portfolio with photo path:', e);
+        }
+
+        res.json({
+            success: true,
+            message: 'Profile photo uploaded successfully',
+            photoUrl
+        });
+    } catch (error) {
+        console.error('Error uploading photo:', error);
+        res.status(500).json({ error: 'Failed to upload photo' });
+    }
+});
+
+// DELETE Profile Photo (Auth Required)
+app.delete('/api/upload-photo', basicAuth, async (req, res) => {
+    try {
+        // Remove photo from all possible extensions
+        const extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        let deleted = false;
+
+        for (const ext of extensions) {
+            const filePath = join(UPLOADS_DIR, `profile-photo.${ext}`);
+            if (existsSync(filePath)) {
+                await unlink(filePath);
+                deleted = true;
+            }
+        }
+
+        // Update portfolio.json to remove photo path
+        try {
+            const portfolioData = JSON.parse(await readFile(PORTFOLIO_PATH, 'utf8'));
+            delete portfolioData.profile.photo;
+            await writeFile(PORTFOLIO_PATH, JSON.stringify(portfolioData, null, 2), 'utf8');
+        } catch (e) {
+            console.error('Failed to update portfolio:', e);
+        }
+
+        res.json({
+            success: true,
+            message: deleted ? 'Profile photo deleted' : 'No photo to delete'
+        });
+    } catch (error) {
+        console.error('Error deleting photo:', error);
+        res.status(500).json({ error: 'Failed to delete photo' });
+    }
+});
+
 // POST Theme Analytics
 app.post('/api/theme-analytics', async (req, res) => {
     try {
-        const { theme } = req.body;
+        const { theme, action = 'switch' } = req.body;
 
         if (!theme || !['minimal', 'modern', 'elegant', 'retro'].includes(theme)) {
             return res.status(400).json({ error: 'Invalid theme name' });
         }
 
-        let analytics = { minimal: 0, modern: 0, elegant: 0, retro: 0 };
+        let analytics = {
+            minimal: { switches: 0, likes: 0 },
+            modern: { switches: 0, likes: 0 },
+            elegant: { switches: 0, likes: 0 },
+            retro: { switches: 0, likes: 0 }
+        };
 
         try {
             const data = await readFile(ANALYTICS_PATH, 'utf8');
-            analytics = JSON.parse(data);
+            const parsed = JSON.parse(data);
+
+            // Migration logic
+            for (const [key, value] of Object.entries(parsed)) {
+                if (typeof value === 'number') {
+                    if (analytics[key]) analytics[key].switches = value;
+                } else if (typeof value === 'object') {
+                    if (analytics[key]) analytics[key] = { ...analytics[key], ...value };
+                }
+            }
         } catch {
             // File doesn't exist, use defaults
         }
 
-        analytics[theme] = (analytics[theme] || 0) + 1;
+        if (action === 'switch') {
+            analytics[theme].switches++;
+        } else if (action === 'like') {
+            analytics[theme].likes++;
+        }
 
         await writeFile(ANALYTICS_PATH, JSON.stringify(analytics, null, 2), 'utf8');
 
-        res.json({ success: true });
+        res.json({ success: true, stats: analytics });
     } catch (error) {
         console.error('Error updating analytics:', error);
         res.status(500).json({ error: 'Failed to update analytics' });
+    }
+});
+
+// GET Public Theme Stats (No Auth)
+app.get('/api/public-theme-stats', async (req, res) => {
+    try {
+        const data = await readFile(ANALYTICS_PATH, 'utf8');
+        res.json(JSON.parse(data));
+    } catch (error) {
+        // Return empty stats if file doesn't exist
+        res.json({});
     }
 });
 

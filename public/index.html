@@ -1,46 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Professional portfolio showcasing skills, projects, and experience">
   <title>Portfolio</title>
-  
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600&family=Space+Mono:wght@400;700&family=Ubuntu:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/theme-modern.css" id="theme-css">
 </head>
+
 <body>
   <!-- Header -->
   <header class="header">
     <div class="container header-content">
       <a href="/" class="logo">Portfolio</a>
-      <nav class="nav">
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <nav class="nav" id="nav-menu">
         <a href="#about" class="nav-link">About</a>
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#experience" class="nav-link">Experience</a>
-        
-        <!-- Theme Switcher -->
-        <div class="theme-switcher">
-          <button class="theme-btn" data-theme="minimal">Minimal</button>
-          <button class="theme-btn active" data-theme="modern">Modern</button>
-          <button class="theme-btn" data-theme="elegant">Elegant</button>
-          <button class="theme-btn" data-theme="retro">Retro</button>
-        </div>
+        <a href="#education" class="nav-link">Education</a>
       </nav>
+
+      <!-- Theme Controls -->
+      <div class="theme-controls">
+        <button class="btn-theme-popup" id="theme-popup-btn">
+          Change Theme
+        </button>
+        <button class="btn-theme-like" id="theme-like-btn" aria-label="Like this theme">
+          <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+            </path>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
+
+  <!-- Theme Selection Modal -->
+  <div class="theme-modal-overlay" id="theme-modal">
+    <div class="theme-modal-content">
+      <div class="theme-modal-header">
+        <h2>Choose a Theme</h2>
+        <button class="theme-modal-close" id="theme-modal-close">✕</button>
+      </div>
+      <div class="theme-list" id="theme-list">
+        <!-- Theme items will be injected here via JS -->
+      </div>
+    </div>
+  </div>
 
   <!-- Main Content -->
   <main id="portfolio-content">
     <!-- Content will be rendered by JavaScript -->
-    <div class="loading-container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="loading-container"
+      style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
       <div class="loading-spinner"></div>
     </div>
   </main>
@@ -48,7 +78,12 @@
   <!-- Chatbox -->
   <div class="chatbox-container">
     <button class="chatbox-toggle" id="chatbox-toggle" aria-label="Open chat">
-      💬
+      <span class="chatbox-label">Ask about me</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
     </button>
     <div class="chatbox-window" id="chatbox-window">
       <div class="chatbox-header">
@@ -61,22 +96,28 @@
         </div>
       </div>
       <div class="chatbox-input-container">
-        <input 
-          type="text" 
-          class="chatbox-input" 
-          id="chatbox-input" 
-          placeholder="Type your question..."
-          aria-label="Chat message input"
-        >
+        <input type="text" class="chatbox-input" id="chatbox-input" placeholder="Type your question..."
+          aria-label="Chat message input">
         <button class="chatbox-send" id="chatbox-send">Send</button>
       </div>
     </div>
   </div>
 
+  <!-- Demo Mode Button -->
+  <a href="/demo" class="demo-btn" aria-label="How this site works">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path
+        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+      </path>
+    </svg>
+    <span class="demo-btn-label">How this site works</span>
+  </a>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p class="footer-text">Built with ❤️ | <a href="/demo" style="color: inherit;">Demo Mode</a></p>
+      <p class="footer-text">Built with ❤️</p>
     </div>
   </footer>
 
@@ -85,4 +126,5 @@
   <script type="module" src="/js/render.js"></script>
   <script type="module" src="/js/chatbox.js"></script>
 </body>
+
 </html>
