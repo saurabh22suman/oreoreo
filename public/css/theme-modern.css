@@ -118,7 +118,8 @@
 .skill-card,
 .project-card,
 .experience-item,
-.education-card {
+.education-card,
+.certification-card {
     animation: fadeInUp 0.6s ease-out backwards;
 }
 
@@ -553,6 +554,18 @@ body {
 }
 
 .education-card:hover {
+    border-color: var(--accent);
+}
+
+/* Certifications */
+.certification-card {
+    background: var(--gradient-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.certification-card:hover {
     border-color: var(--accent);
 }
 
