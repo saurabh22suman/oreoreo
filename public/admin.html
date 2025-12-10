@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/theme-modern.css" id="theme-css">
 
+    <!-- Cropper.js for image cropping -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+
     <style>
         /* Admin-specific styles */
         .admin-container {
@@ -369,6 +373,152 @@
         .selected-file-remove:hover {
             color: #e94560;
         }
+
+        /* Photo Preview Styles */
+        .photo-preview-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary, #1a1a2e);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent, #7c3aed);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e94560 0%, #c73e54 100%);
+            color: #ffffff;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c73e54 0%, #a33547 100%);
+            transform: translateY(-1px);
+        }
+
+        .photo-delete-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Image Cropper Modal */
+        .crop-dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .crop-dialog-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .crop-dialog {
+            background: var(--bg-card, #16162a);
+            border: 1px solid var(--border-color, #2a2a4a);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
+
+        .crop-dialog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .crop-dialog-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary, #ffffff);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .crop-dialog-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary, #a0a0b8);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+
+        .crop-dialog-close:hover {
+            color: #e94560;
+        }
+
+        .crop-dialog-image-wrapper {
+            width: 100%;
+            max-height: 400px;
+            overflow: hidden;
+            border-radius: var(--border-radius-sm);
+            background: #000;
+        }
+
+        .crop-dialog-image-wrapper img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .crop-dialog-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .crop-dialog-hint {
+            color: var(--text-secondary, #a0a0b8);
+            font-size: 0.875rem;
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+
+        /* Override Cropper.js styles for better visibility */
+        .cropper-view-box {
+            border-radius: 50%;
+            outline: 2px solid var(--accent, #7c3aed);
+            outline-offset: -2px;
+        }
+
+        .cropper-face {
+            background-color: rgba(124, 58, 237, 0.1);
+        }
     </style>
 </head>
 
@@ -439,6 +589,45 @@
                 </div>
             </div>
 
+            <!-- Profile Photo Upload Card -->
+            <div class="admin-card">
+                <h2 class="admin-card-title">📷 Profile Photo</h2>
+                <p class="admin-card-description">
+                    Upload a profile photo to display in the About section. Supports JPEG, PNG, GIF, and WebP (max 5MB).
+                </p>
+
+                <div class="message" id="photo-message"></div>
+
+                <!-- Current Photo Preview -->
+                <div class="photo-preview-container" id="photo-preview-container" style="display: none;">
+                    <img src="" alt="Current profile photo" class="photo-preview" id="photo-preview">
+                    <button class="btn btn-danger photo-delete-btn" id="delete-photo-btn">
+                        🗑️ Remove Photo
+                    </button>
+                </div>
+
+                <div class="file-upload-area" id="photo-upload-area">
+                    <div class="file-upload-icon">📷</div>
+                    <p class="file-upload-text">Drag & drop your photo here</p>
+                    <p class="file-upload-hint">or click to browse</p>
+                </div>
+
+                <input type="file" class="file-input" id="photo-input"
+                    accept="image/jpeg,image/png,image/gif,image/webp">
+
+                <div class="selected-file" id="selected-photo" style="display: none;">
+                    <span>🖼️</span>
+                    <span class="selected-file-name" id="selected-photo-name"></span>
+                    <button class="selected-file-remove" id="remove-photo">✕</button>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="upload-photo-btn" disabled>
+                        📤 Upload Photo
+                    </button>
+                </div>
+            </div>
+
             <!-- Theme Analytics Card -->
             <div class="admin-card">
                 <h2 class="admin-card-title">📊 Theme Analytics</h2>
@@ -454,6 +643,26 @@
                     <div class="analytics-total-number" id="total-count">0</div>
                     <div class="analytics-total-label">Total Theme Switches</div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Cropper Modal -->
+    <div class="crop-dialog-overlay" id="crop-dialog">
+        <div class="crop-dialog">
+            <div class="crop-dialog-header">
+                <h2 class="crop-dialog-title">✂️ Crop Your Photo</h2>
+                <button class="crop-dialog-close" id="crop-dialog-close">✕</button>
+            </div>
+            <div class="crop-dialog-image-wrapper">
+                <img id="crop-dialog-image" src="" alt="Image to crop">
+            </div>
+            <p class="crop-dialog-hint">Drag to reposition • Scroll to zoom • The circular area will be your profile
+                photo
+            </p>
+            <div class="crop-dialog-actions">
+                <button class="btn btn-secondary" id="crop-dialog-cancel">Cancel</button>
+                <button class="btn btn-primary" id="crop-dialog-confirm">✓ Apply Crop</button>
             </div>
         </div>
     </div>
@@ -480,6 +689,28 @@
         const analyticsChart = document.getElementById('analytics-chart');
         const totalCount = document.getElementById('total-count');
 
+        // Photo Upload DOM Elements
+        const photoUploadArea = document.getElementById('photo-upload-area');
+        const photoInput = document.getElementById('photo-input');
+        const selectedPhotoEl = document.getElementById('selected-photo');
+        const selectedPhotoName = document.getElementById('selected-photo-name');
+        const removePhotoBtn = document.getElementById('remove-photo');
+        const uploadPhotoBtn = document.getElementById('upload-photo-btn');
+        const photoMessage = document.getElementById('photo-message');
+        const photoPreviewContainer = document.getElementById('photo-preview-container');
+        const photoPreview = document.getElementById('photo-preview');
+        const deletePhotoBtn = document.getElementById('delete-photo-btn');
+        let selectedPhotoFile = null;
+
+        // Cropper DOM Elements
+        const cropDialog = document.getElementById('crop-dialog');
+        const cropDialogImage = document.getElementById('crop-dialog-image');
+        const cropDialogClose = document.getElementById('crop-dialog-close');
+        const cropDialogCancel = document.getElementById('crop-dialog-cancel');
+        const cropDialogConfirm = document.getElementById('crop-dialog-confirm');
+        let cropper = null;
+        let originalPhotoFile = null;
+
         // Login Handler
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -500,6 +731,7 @@
                     loginOverlay.classList.add('hidden');
                     adminContent.style.display = 'block';
                     loadAnalytics();
+                    loadCurrentPhoto();
                 } else {
                     loginError.textContent = 'Invalid credentials. Please try again.';
                     loginError.classList.add('show');
@@ -595,6 +827,230 @@
             uploadBtn.textContent = 'Upload Portfolio';
         });
 
+        // ========== Photo Upload Handlers ==========
+
+        // Load current photo on login
+        async function loadCurrentPhoto() {
+            try {
+                const response = await fetch('/api/portfolio');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.profile && data.profile.photo) {
+                        photoPreview.src = data.profile.photo + '?t=' + Date.now();
+                        photoPreviewContainer.style.display = 'flex';
+                        photoUploadArea.style.display = 'none';
+                    } else {
+                        photoPreviewContainer.style.display = 'none';
+                        photoUploadArea.style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load current photo:', error);
+            }
+        }
+
+        photoUploadArea.addEventListener('click', () => photoInput.click());
+
+        photoUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            photoUploadArea.classList.add('dragover');
+        });
+
+        photoUploadArea.addEventListener('dragleave', () => {
+            photoUploadArea.classList.remove('dragover');
+        });
+
+        photoUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            photoUploadArea.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handlePhotoSelect(files[0]);
+            }
+        });
+
+        photoInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handlePhotoSelect(e.target.files[0]);
+            }
+        });
+
+        function handlePhotoSelect(file) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                showMessage(photoMessage, 'Please select a valid image file (JPEG, PNG, GIF, or WebP).', 'error');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage(photoMessage, 'File too large. Maximum size is 5MB.', 'error');
+                return;
+            }
+
+            // Store original file and open cropper
+            originalPhotoFile = file;
+            openCropper(file);
+        }
+
+        // ========== Cropper Functions ==========
+
+        function openCropper(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                cropDialogImage.src = e.target.result;
+                cropDialog.classList.add('active');
+
+                // Initialize Cropper after image loads
+                cropDialogImage.onload = () => {
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+                    cropper = new Cropper(cropDialogImage, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        dragMode: 'move',
+                        autoCropArea: 0.8,
+                        restore: false,
+                        guides: true,
+                        center: true,
+                        highlight: false,
+                        cropBoxMovable: true,
+                        cropBoxResizable: true,
+                        toggleDragModeOnDblclick: false,
+                        minCropBoxWidth: 100,
+                        minCropBoxHeight: 100,
+                    });
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function closeCropper() {
+            cropDialog.classList.remove('active');
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            cropDialogImage.src = '';
+            photoInput.value = '';
+        }
+
+        cropDialogClose.addEventListener('click', closeCropper);
+        cropDialogCancel.addEventListener('click', closeCropper);
+
+        cropDialogConfirm.addEventListener('click', () => {
+            if (!cropper) return;
+
+            // Get cropped canvas
+            const canvas = cropper.getCroppedCanvas({
+                width: 400,
+                height: 400,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high',
+            });
+
+            // Convert canvas to blob
+            canvas.toBlob((blob) => {
+                // Create a new file from the cropped blob
+                const croppedFile = new File([blob], originalPhotoFile.name, {
+                    type: 'image/png',
+                    lastModified: Date.now(),
+                });
+
+                // Set as selected file
+                selectedPhotoFile = croppedFile;
+                selectedPhotoName.textContent = `${originalPhotoFile.name} (cropped)`;
+                selectedPhotoEl.style.display = 'flex';
+                uploadPhotoBtn.disabled = false;
+                hideMessage(photoMessage);
+
+                closeCropper();
+            }, 'image/png', 0.95);
+        });
+
+        removePhotoBtn.addEventListener('click', () => {
+            selectedPhotoFile = null;
+            originalPhotoFile = null;
+            photoInput.value = '';
+            selectedPhotoEl.style.display = 'none';
+            uploadPhotoBtn.disabled = true;
+        });
+
+        uploadPhotoBtn.addEventListener('click', async () => {
+            if (!selectedPhotoFile || !authCredentials) return;
+
+            uploadPhotoBtn.disabled = true;
+            uploadPhotoBtn.textContent = 'Uploading...';
+
+            const formData = new FormData();
+            formData.append('photo', selectedPhotoFile);
+
+            try {
+                const response = await fetch('/api/upload-photo', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Basic ${authCredentials}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(photoMessage, 'Photo uploaded successfully!', 'success');
+                    selectedPhotoFile = null;
+                    photoInput.value = '';
+                    selectedPhotoEl.style.display = 'none';
+
+                    // Show the new photo preview
+                    photoPreview.src = data.photoUrl + '?t=' + Date.now();
+                    photoPreviewContainer.style.display = 'flex';
+                    photoUploadArea.style.display = 'none';
+                } else {
+                    showMessage(photoMessage, data.error || 'Upload failed.', 'error');
+                }
+            } catch (error) {
+                showMessage(photoMessage, 'Connection error. Please try again.', 'error');
+            }
+
+            uploadPhotoBtn.disabled = !selectedPhotoFile;
+            uploadPhotoBtn.textContent = '📤 Upload Photo';
+        });
+
+        deletePhotoBtn.addEventListener('click', async () => {
+            if (!authCredentials) return;
+
+            if (!confirm('Are you sure you want to delete the profile photo?')) return;
+
+            deletePhotoBtn.disabled = true;
+            deletePhotoBtn.textContent = 'Deleting...';
+
+            try {
+                const response = await fetch('/api/upload-photo', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Basic ${authCredentials}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage(photoMessage, 'Photo deleted successfully!', 'success');
+                    photoPreviewContainer.style.display = 'none';
+                    photoUploadArea.style.display = 'block';
+                } else {
+                    showMessage(photoMessage, data.error || 'Delete failed.', 'error');
+                }
+            } catch (error) {
+                showMessage(photoMessage, 'Connection error. Please try again.', 'error');
+            }
+
+            deletePhotoBtn.disabled = false;
+            deletePhotoBtn.textContent = '🗑️ Remove Photo';
+        });
+
         // Analytics
         async function loadAnalytics() {
             try {
@@ -614,20 +1070,35 @@
         }
 
         function renderAnalytics(data) {
-            const total = Object.values(data).reduce((sum, count) => sum + count, 0);
-            const maxCount = Math.max(...Object.values(data), 1);
+            // Calculate total switches only for the main big number
+            const totalSwitches = Object.values(data).reduce((sum, item) => {
+                const count = typeof item === 'number' ? item : (item.switches || 0);
+                return sum + count;
+            }, 0);
 
-            totalCount.textContent = total;
+            // Find max for scaling bars
+            const maxVal = Math.max(...Object.values(data).map(item => {
+                return typeof item === 'number' ? item : (item.switches || 0);
+            }), 1);
+
+            totalCount.textContent = totalSwitches;
 
             analyticsChart.innerHTML = THEMES.map(theme => {
-                const count = data[theme] || 0;
-                const percentage = (count / maxCount) * 100;
+                const item = data[theme] || { switches: 0, likes: 0 };
+                // Handle legacy number format just in case
+                const switches = typeof item === 'number' ? item : (item.switches || 0);
+                const likes = typeof item === 'number' ? 0 : (item.likes || 0);
+
+                const percentage = (switches / maxVal) * 100;
 
                 return `
           <div class="analytics-bar-container">
             <div class="analytics-bar-label">
               <span class="analytics-bar-name">${theme}</span>
-              <span class="analytics-bar-count">${count} switches</span>
+              <div style="display: flex; gap: 1rem;">
+                <span class="analytics-bar-count">👆 ${switches}</span>
+                <span class="analytics-bar-count" style="color: #e94560;">❤️ ${likes}</span>
+              </div>
             </div>
             <div class="analytics-bar-track">
               <div class="analytics-bar-fill ${theme}" style="width: ${percentage}%"></div>

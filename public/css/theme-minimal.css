@@ -1,296 +1,482 @@
 /* ============================================
-   THEME: MINIMAL
-   Clean, black & white with subtle grays
+   THEME: MINIMAL (Madhubani Art Style)
+   "Mithila" - Earthy, Intricate, Hand-painted vibe
    ============================================ */
 
 :root {
-    /* Colors */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
+    /* Colors - Earthy Madhubani Palette */
+    --madhubani-red: #c0392b;
+    /* Clay Red */
+    --madhubani-ochre: #d35400;
+    /* Turmeric/Ochre */
+    --madhubani-black: #2c3e50;
+    /* Lamp Black/Kajal */
+    --madhubani-green: #27ae60;
+    /* Leaf Green */
+    --madhubani-paper: #fffcf5;
+    /* Handmade Paper */
+
+    --accent: var(--madhubani-ochre);
+    --accent-hover: var(--madhubani-red);
+    --accent-light: #e67e22;
+
+    --bg-primary: var(--madhubani-paper);
+    --bg-secondary: #fef9e7;
     --bg-card: #ffffff;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --accent: #000000;
-    --accent-light: #333333;
-    --accent-hover: #1a1a1a;
-    --border-color: #e5e5e5;
-    --shadow-color: rgba(0, 0, 0, 0.05);
+
+    --text-primary: #1a0a00;
+    --text-secondary: #5d4037;
+
+    --border-color: #8d6e63;
+    --shadow-color: rgba(141, 110, 99, 0.2);
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-    --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    --gradient-hero: linear-gradient(to bottom, transparent, rgba(211, 84, 0, 0.05));
+    --gradient-card: linear-gradient(145deg, #ffffff, #fffaf0);
+
+    /* Typography - Something organic yet readable */
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+
+    /* Geometry */
+    --border-radius: 2px;
+    /* Hand-drawn feel often has slight irregular or softer corners, but clean lines work too */
+    --border-radius-sm: 2px;
+    --border-radius-pill: 50px;
+
+    /* Animation */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.4s ease;
 }
 
-/* Body */
+/* Base Body - Parchment with Madhubani Borders */
 body {
-    background: var(--bg-primary);
+    background-color: var(--madhubani-paper);
     color: var(--text-primary);
+    position: relative;
+    /* Create a repeating geometric pattern background (Fish scale / Diamond motif) */
+    background-image:
+        radial-gradient(circle at 100% 50%, transparent 20%, rgba(192, 57, 43, 0.05) 21%, rgba(192, 57, 43, 0.05) 34%, transparent 35%, transparent),
+        radial-gradient(circle at 0% 50%, transparent 20%, rgba(192, 57, 43, 0.05) 21%, rgba(192, 57, 43, 0.05) 34%, transparent 35%, transparent),
+        linear-gradient(90deg, rgba(39, 174, 96, 0.03) 1px, transparent 1px),
+        linear-gradient(rgba(39, 174, 96, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px, 60px 60px, 20px 20px, 20px 20px;
+    background-position: 0 0, 30px 30px, 0 0, 0 0;
+}
+
+/* Decorative Top/Bottom Borders (Common in Madhubani) */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    z-index: 999;
+    /* Zig-zag pattern */
+    background:
+        linear-gradient(45deg, var(--madhubani-red) 25%, transparent 25%, transparent 75%, var(--madhubani-red) 75%, var(--madhubani-red)),
+        linear-gradient(45deg, var(--madhubani-red) 25%, transparent 25%, transparent 75%, var(--madhubani-red) 75%, var(--madhubani-red));
+    background-position: 0 0, 10px 10px;
+    background-size: 20px 20px;
+    background-color: var(--madhubani-black);
+}
+
+body::before {
+    top: 0;
+    border-bottom: 2px solid var(--madhubani-black);
+}
+
+body::after {
+    bottom: 0;
+    border-top: 2px solid var(--madhubani-black);
+}
+
+/* Animations */
+@keyframes drawStroke {
+    from {
+        stroke-dashoffset: 1000;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes floatPaper {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 /* Header */
 .header {
-    background: rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 252, 245, 0.95);
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.02);
+    padding-top: 15px;
+    /* Account for top border */
 }
 
 .logo {
-    color: var(--text-primary);
+    font-weight: 700;
+    color: var(--madhubani-black);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--madhubani-black);
+    padding: 0.2rem 0.5rem;
+    background: white;
 }
 
 .nav-link {
     color: var(--text-secondary);
+    font-weight: 600;
+    transition: var(--transition-fast);
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--text-primary);
-}
-
-/* Theme Buttons */
-.theme-btn {
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-}
-
-.theme-btn:hover {
-    background: var(--bg-card);
-    color: var(--text-primary);
-}
-
-.theme-btn.active {
-    background: var(--accent);
-    color: #ffffff;
-    border-color: var(--accent);
+    color: var(--madhubani-red);
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 1.5px;
 }
 
 /* Hero */
 .hero {
     background: var(--gradient-hero);
+    border-bottom: 1px dashed var(--border-color);
 }
 
 .hero-avatar {
-    border: 4px solid var(--border-color);
-    box-shadow: 0 8px 30px var(--shadow-color);
+    border-radius: 50%;
+    border: 3px double var(--madhubani-black);
+    padding: 3px;
+    background: white;
+    box-shadow: 0 0 0 4px var(--madhubani-ochre);
 }
 
 .hero-name {
-    color: var(--text-primary);
+    color: var(--madhubani-black);
+    font-family: 'Playfair Display', serif;
 }
 
 .hero-title {
-    color: var(--text-secondary);
+    color: var(--madhubani-red);
+    font-weight: 600;
+    font-size: 1.2rem;
 }
 
-.hero-location {
-    color: var(--text-secondary);
-}
-
-.hero-summary {
-    color: var(--text-secondary);
-}
-
-/* Social Links */
+/* Social Links - Hand-drawn feel */
 .social-link {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    background: white;
+    color: var(--madhubani-black);
+    border: 2px solid var(--madhubani-black);
+    border-radius: 50%;
+    transition: var(--transition-fast);
 }
 
 .social-link:hover {
-    background: var(--accent);
-    color: #ffffff;
-    border-color: var(--accent);
+    background: var(--madhubani-ochre);
+    color: white;
+    transform: rotate(5deg) scale(1.1);
 }
 
 /* Sections */
-.section {
-    background: var(--bg-primary);
-}
-
-.section:nth-child(even) {
-    background: var(--bg-secondary);
-}
-
 .section-title {
-    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+    color: var(--madhubani-black);
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    border: 2px solid var(--madhubani-black);
+    background: white;
+    box-shadow: 4px 4px 0 var(--madhubani-red);
 }
 
-/* Skill Cards */
-.skill-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px var(--shadow-color);
+/* Cards - Paper cutouts */
+.skill-card,
+.project-card,
+.experience-item,
+.education-card {
+    background: white;
+    border: 2px solid var(--madhubani-black);
+    border-radius: 4px;
+    box-shadow: 6px 6px 0 rgba(44, 62, 80, 0.1);
+    /* Hard shadow */
+    transition: var(--transition-medium);
 }
 
-.skill-card:hover {
-    box-shadow: 0 8px 30px var(--shadow-color);
+.skill-card:hover,
+.project-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--madhubani-ochre);
 }
+
+/* Stagger Animations */
+.skill-card,
+.project-card,
+.experience-item {
+    animation: floatPaper 6s ease-in-out infinite;
+}
+
+.skill-card:nth-child(odd) {
+    animation-delay: 0s;
+}
+
+.skill-card:nth-child(even) {
+    animation-delay: 3s;
+}
+
 
 .skill-category {
-    color: var(--text-primary);
+    color: var(--madhubani-red);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .skill-tag {
     background: var(--bg-secondary);
-    color: var(--text-secondary);
+    color: var(--madhubani-black);
     border: 1px solid var(--border-color);
-}
-
-/* Project Cards */
-.project-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px var(--shadow-color);
-}
-
-.project-card:hover {
-    box-shadow: 0 12px 40px var(--shadow-color);
 }
 
 .project-title {
-    color: var(--text-primary);
-}
-
-.project-description {
-    color: var(--text-secondary);
+    color: var(--madhubani-black);
+    font-family: 'Playfair Display', serif;
 }
 
 .tech-tag {
-    background: var(--accent);
-    color: #ffffff;
+    background: var(--madhubani-black);
+    color: white;
+    border-radius: 2px;
 }
 
+/* Buttons */
 .project-link {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    background: white;
+    color: var(--madhubani-black);
+    border: 2px solid var(--madhubani-black);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    box-shadow: 2px 2px 0 var(--madhubani-black);
 }
 
 .project-link:hover {
-    background: var(--accent);
-    color: #ffffff;
-    border-color: var(--accent);
+    background: var(--madhubani-black);
+    color: white;
+    box-shadow: 4px 4px 0 var(--madhubani-red);
+    transform: translate(-1px, -1px);
 }
 
-/* Experience */
+/* Experience - Vertical Line Style */
 .experience-item {
-    background: var(--bg-card);
-    border-left-color: var(--accent);
-    box-shadow: 0 4px 15px var(--shadow-color);
-}
-
-.experience-item::before {
-    background: var(--accent);
-    border: 3px solid var(--bg-primary);
-}
-
-.experience-role {
-    color: var(--text-primary);
+    border-left: 6px solid var(--madhubani-green);
 }
 
 .experience-company {
-    color: var(--accent);
+    color: var(--madhubani-red);
+    font-weight: 700;
 }
 
-.experience-period {
-    color: var(--text-secondary);
+/* Theme Controls */
+.theme-controls button {
+    background: white;
+    color: var(--madhubani-black);
+    border: 2px solid var(--madhubani-black);
+    box-shadow: 2px 2px 0 var(--madhubani-black);
 }
 
-.experience-description {
-    color: var(--text-secondary);
+.theme-controls button:hover {
+    background: var(--madhubani-red);
+    color: white;
 }
 
-/* Education */
-.education-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px var(--shadow-color);
+/* Modal */
+.theme-modal-content {
+    background: var(--madhubani-paper);
+    border: 3px solid var(--madhubani-black);
+    box-shadow: 10px 10px 0 var(--madhubani-black);
+    border-radius: 0;
 }
 
-.education-degree {
-    color: var(--text-primary);
+.theme-option.active {
+    border: 2px solid var(--madhubani-red);
+    background: rgba(192, 57, 43, 0.1);
 }
 
-.education-institution {
-    color: var(--accent);
+.active-indicator {
+    color: var(--madhubani-red);
 }
 
-.education-year {
-    color: var(--text-secondary);
+/* Chatbox - Madhubani Style */
+.chatbox-toggle {
+    background: var(--madhubani-red);
+    color: #ffffff;
+    box-shadow: 4px 4px 0 var(--madhubani-black);
+    border-radius: 50px;
+    border: 2px solid var(--madhubani-black);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    transition: var(--transition-fast);
+}
+
+.chatbox-toggle:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--madhubani-black);
+    background: var(--madhubani-ochre);
+}
+
+.chatbox-label {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+}
+
+/* Demo Mode Button */
+.demo-btn {
+    background: var(--madhubani-red);
+    color: #ffffff;
+    box-shadow: 4px 4px 0 var(--madhubani-black);
+    border-radius: 50px;
+    border: 2px solid var(--madhubani-black);
+    transition: var(--transition-fast);
+}
+
+.demo-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--madhubani-black);
+    background: var(--madhubani-ochre);
+}
+
+.demo-btn-label {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+}
+
+.demo-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.demo-btn:hover svg {
+    transform: rotate(90deg);
+}
+
+.chatbox-window {
+    background: white;
+    border: 3px solid var(--madhubani-black);
+    border-radius: 4px;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.chatbox-header {
+    background: var(--madhubani-paper);
+    border-bottom: 2px solid var(--madhubani-black);
+    color: var(--madhubani-black);
+}
+
+.chatbox-header h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+.chatbox-close {
+    color: var(--madhubani-red);
+    font-weight: bold;
+}
+
+.message.user {
+    background: var(--madhubani-red);
+    color: white;
+    border: 1px solid var(--madhubani-black);
+}
+
+.message.bot {
+    background: var(--madhubani-paper);
+    border: 1px solid var(--madhubani-black);
+    color: var(--madhubani-black);
+}
+
+.chatbox-input {
+    border: 2px solid #ccc;
+    background: white;
+}
+
+.chatbox-input:focus {
+    border-color: var(--madhubani-ochre);
+}
+
+.chatbox-send {
+    background: var(--madhubani-black);
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.chatbox-send:hover {
+    background: var(--madhubani-red);
 }
 
 /* Footer */
 .footer {
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
+    background: var(--madhubani-black);
+    color: white;
+    padding-bottom: 25px;
+    /* Account for border */
 }
 
 .footer-text {
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.8);
 }
 
-/* Chatbox */
-.chatbox-toggle {
-    background: var(--accent);
-    color: #ffffff;
+/* Theme Buttons (Demo Page) */
+.theme-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 2px;
+    cursor: pointer;
+    background: white;
+    color: var(--madhubani-black);
+    border: 2px solid var(--madhubani-black);
+    box-shadow: 2px 2px 0 var(--madhubani-black);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    transition: var(--transition-fast);
 }
 
-.chatbox-window {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+.theme-btn:hover {
+    background: var(--madhubani-ochre);
+    color: white;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--madhubani-black);
 }
 
-.chatbox-header {
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-primary);
-}
-
-.chatbox-close {
-    color: var(--text-secondary);
-}
-
-.chatbox-messages {
-    background: var(--bg-primary);
-}
-
-.message.user {
-    background: var(--accent);
-    color: #ffffff;
-}
-
-.message.bot {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-
-.chatbox-input-container {
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
-}
-
-.chatbox-input {
-    background: var(--bg-card);
-    color: var(--text-primary);
-    border-color: var(--border-color);
-}
-
-.chatbox-input:focus {
-    border-color: var(--accent);
-}
-
-.chatbox-send {
-    background: var(--accent);
-    color: #ffffff;
-}
-
-.chatbox-send:hover {
-    background: var(--accent-hover);
+.theme-btn.active {
+    background: var(--madhubani-red);
+    color: white;
+    border-color: var(--madhubani-black);
+    box-shadow: 2px 2px 0 var(--madhubani-black);
 }
 
 .loading-spinner {
-    border-color: var(--text-secondary);
+    border-color: var(--madhubani-red);
     border-top-color: transparent;
 }
