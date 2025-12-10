@@ -18,10 +18,13 @@ A lightweight, JSON-driven portfolio website with theme switching, demo mode, ad
    # Copy example env file
    cp .env.example .env
    
-   # Edit .env with your settings (optional)
+   # Edit .env with your settings
    ADMIN_USERNAME=admin
    ADMIN_PASSWORD=your_secure_password
-   OPENAI_API_KEY=sk-your-openai-api-key  # Optional: for LLM chat
+   
+   # Choose your LLM provider
+   LLM_PROVIDER=gemini  # openai | huggingface | gemini | openrouter
+   GEMINI_API_KEY=your-api-key  # Or OPENAI_API_KEY, HUGGINGFACE_API_KEY, etc.
    ```
 
 2. **Start with Docker Compose:**
@@ -103,6 +106,7 @@ root/
 | POST | `/api/upload` | Yes | Upload new portfolio |
 | POST | `/api/theme-analytics` | No | Track theme switch |
 | POST | `/api/chat` | No | Send chat message |
+| GET | `/api/llm/status` | No | Get current LLM provider status |
 | GET | `/admin/theme-stats` | Yes | Get theme analytics |
 
 ## Portfolio JSON Structure
@@ -167,14 +171,42 @@ root/
 
 ## RAG Chatbot
 
-The chatbot uses Retrieval-Augmented Generation:
+The chatbot uses Retrieval-Augmented Generation with **multi-provider LLM support**:
+
+### Supported Providers
+
+| Provider | Env Variable | Default Model | Embeddings |
+|----------|--------------|---------------|------------|
+| **OpenAI** | `OPENAI_API_KEY` | gpt-4o-mini | ✅ text-embedding-3-small |
+| **Hugging Face** | `HUGGINGFACE_API_KEY` | Mistral-7B-Instruct | ✅ MiniLM-L6-v2 |
+| **Google Gemini** | `GEMINI_API_KEY` | gemini-1.5-flash | ✅ text-embedding-004 |
+| **OpenRouter** | `OPENROUTER_API_KEY` | llama-3.1-8b:free | ❌ (keyword fallback) |
+
+### Configuration
+
+```bash
+# In your .env file
+LLM_PROVIDER=gemini          # openai | huggingface | gemini | openrouter
+GEMINI_API_KEY=your-key-here
+
+# Optional: Override default model
+LLM_CHAT_MODEL=gemini-1.5-pro
+```
+
+### How It Works
 
 1. Portfolio JSON is chunked into semantic blocks
-2. Embeddings generated on server startup (if OpenAI key configured)
+2. Embeddings generated on server startup (if provider supports it)
 3. User questions matched to relevant chunks via cosine similarity
 4. LLM generates response using context
 
-**Without OpenAI API Key**: Falls back to simple keyword matching - still functional but less intelligent.
+### Check Provider Status
+
+```bash
+curl http://localhost:3000/api/llm/status
+```
+
+**Without API Key**: Falls back to simple keyword matching - still functional but less intelligent.
 
 ## License
 

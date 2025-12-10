@@ -1,18 +1,18 @@
 {
   "minimal": {
-    "switches": 21,
+    "switches": 24,
     "likes": 5
   },
   "modern": {
-    "switches": 26,
+    "switches": 29,
     "likes": 3
   },
   "elegant": {
-    "switches": 19,
+    "switches": 20,
     "likes": 2
   },
   "retro": {
-    "switches": 16,
+    "switches": 19,
     "likes": 3
   }
 }

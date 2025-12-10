@@ -1,5 +1,10 @@
-import OpenAI from 'openai';
+/**
+ * Embedding Generation and Management
+ * Uses the provider abstraction to support multiple embedding backends
+ */
+
 import { chunkPortfolio } from './chunker.js';
+import { getClient, getEmbeddingModel, isProviderConfigured, supportsEmbeddings, getProviderStatus } from './providers.js';
 
 // In-memory storage for embeddings
 let embeddingsCache = [];
@@ -16,10 +21,20 @@ export async function initializeEmbeddings() {
         return;
     }
 
-    // Check if OpenAI API key is configured
-    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.startsWith('sk-your')) {
-        console.warn('OpenAI API key not configured. Using simple keyword matching for RAG.');
-        // Store chunks without embeddings for fallback keyword matching
+    const status = getProviderStatus();
+
+    // Check if provider is configured and supports embeddings
+    if (!isProviderConfigured()) {
+        console.warn(`${status.name} not configured. Using simple keyword matching for RAG.`);
+        embeddingsCache = chunks.map(chunk => ({
+            ...chunk,
+            embedding: null
+        }));
+        return;
+    }
+
+    if (!supportsEmbeddings()) {
+        console.warn(`${status.name} doesn't support embeddings. Using keyword matching.`);
         embeddingsCache = chunks.map(chunk => ({
             ...chunk,
             embedding: null
@@ -28,12 +43,15 @@ export async function initializeEmbeddings() {
     }
 
     try {
-        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+        const client = getClient();
+        const model = getEmbeddingModel();
+
+        console.log(`Generating embeddings with ${status.name} (${model})`);
 
         // Generate embeddings for all chunks
         const embeddingPromises = chunks.map(async (chunk) => {
-            const response = await openai.embeddings.create({
-                model: 'text-embedding-3-small',
+            const response = await client.embeddings.create({
+                model: model,
                 input: chunk.text
             });
 
@@ -46,7 +64,7 @@ export async function initializeEmbeddings() {
         embeddingsCache = await Promise.all(embeddingPromises);
         console.log(`Generated embeddings for ${embeddingsCache.length} chunks`);
     } catch (error) {
-        console.error('Error generating embeddings:', error);
+        console.error('Error generating embeddings:', error.message);
         // Fallback to keyword matching
         embeddingsCache = chunks.map(chunk => ({
             ...chunk,
@@ -87,21 +105,22 @@ export function cosineSimilarity(vecA, vecB) {
  * Generate embedding for a query
  */
 export async function generateQueryEmbedding(query) {
-    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.startsWith('sk-your')) {
+    if (!isProviderConfigured() || !supportsEmbeddings()) {
         return null;
     }
 
     try {
-        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+        const client = getClient();
+        const model = getEmbeddingModel();
 
-        const response = await openai.embeddings.create({
-            model: 'text-embedding-3-small',
+        const response = await client.embeddings.create({
+            model: model,
             input: query
         });
 
         return response.data[0].embedding;
     } catch (error) {
-        console.error('Error generating query embedding:', error);
+        console.error('Error generating query embedding:', error.message);
         return null;
     }
 }

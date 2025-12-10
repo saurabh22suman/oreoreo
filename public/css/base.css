@@ -101,6 +101,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   /* Color in theme */
 }
 
@@ -113,6 +114,56 @@ body {
 .btn-theme-like.liked .heart-icon {
   fill: var(--accent, #e91e63);
   stroke: var(--accent, #e91e63);
+}
+
+/* Like button tooltip */
+.like-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--bg-card, #1a1a2e);
+  color: var(--text-primary, #fff);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color, #333);
+  z-index: 100;
+}
+
+/* Tooltip arrow border (behind) */
+.like-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 12px;
+  border: 7px solid transparent;
+  border-bottom-color: var(--border-color, #333);
+  z-index: 0;
+}
+
+/* Tooltip arrow fill (in front) */
+.like-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 13px;
+  border: 6px solid transparent;
+  border-bottom-color: var(--bg-card, #1a1a2e);
+  z-index: 1;
+}
+
+.btn-theme-like:hover .like-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* Theme Modal */

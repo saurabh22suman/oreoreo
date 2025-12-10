@@ -34,8 +34,10 @@
     --gradient-hero: linear-gradient(to bottom, transparent, rgba(211, 84, 0, 0.05));
     --gradient-card: linear-gradient(145deg, #ffffff, #fffaf0);
 
-    /* Typography - Something organic yet readable */
-    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    /* Typography - Indian/Mithila inspired, readable fonts */
+    /* Hind: Clean readable font with Hindi/Devanagari roots */
+    /* Yatra One: Decorative display font inspired by Indian sign-painting */
+    font-family: 'Hind', 'Noto Sans', sans-serif;
 
     /* Geometry */
     --border-radius: 2px;
@@ -165,7 +167,8 @@ body::after {
 
 .hero-name {
     color: var(--madhubani-black);
-    font-family: 'Playfair Display', serif;
+    font-family: 'Yatra One', 'Hind', sans-serif;
+    letter-spacing: 1px;
 }
 
 .hero-title {
@@ -191,7 +194,7 @@ body::after {
 
 /* Sections */
 .section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Yatra One', 'Hind', sans-serif;
     color: var(--madhubani-black);
     text-align: center;
     position: relative;
@@ -255,7 +258,7 @@ body::after {
 
 .project-title {
     color: var(--madhubani-black);
-    font-family: 'Playfair Display', serif;
+    font-family: 'Yatra One', 'Hind', sans-serif;
 }
 
 .tech-tag {
@@ -346,7 +349,7 @@ body::after {
 .chatbox-label {
     font-weight: 600;
     letter-spacing: 0.5px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Hind', sans-serif;
     font-size: 1.1rem;
 }
 
@@ -369,7 +372,7 @@ body::after {
 .demo-btn-label {
     font-weight: 600;
     letter-spacing: 0.5px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Hind', sans-serif;
     font-size: 1.1rem;
 }
 
@@ -395,7 +398,7 @@ body::after {
 }
 
 .chatbox-header h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Yatra One', 'Hind', sans-serif;
 }
 
 .chatbox-close {
@@ -427,7 +430,7 @@ body::after {
 .chatbox-send {
     background: var(--madhubani-black);
     color: white;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Hind', sans-serif;
     font-weight: 700;
     letter-spacing: 1px;
 }

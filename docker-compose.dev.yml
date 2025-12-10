@@ -13,6 +13,14 @@ services:
       - PORT=3000
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-password123}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - NODE_ENV=development
+      # LLM Provider: openai | huggingface | gemini | openrouter
+      - LLM_PROVIDER=${LLM_PROVIDER:-openai}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      # Optional: Override default models
+      - LLM_CHAT_MODEL=${LLM_CHAT_MODEL:-}
+      - LLM_EMBEDDING_MODEL=${LLM_EMBEDDING_MODEL:-}
     command: npm run dev
