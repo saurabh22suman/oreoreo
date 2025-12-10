@@ -138,13 +138,26 @@ body {
   z-index: 100;
 }
 
-.like-tooltip::before {
+/* Tooltip arrow border (behind) */
+.like-tooltip::after {
   content: '';
   position: absolute;
   bottom: 100%;
   right: 12px;
+  border: 7px solid transparent;
+  border-bottom-color: var(--border-color, #333);
+  z-index: 0;
+}
+
+/* Tooltip arrow fill (in front) */
+.like-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 13px;
   border: 6px solid transparent;
   border-bottom-color: var(--bg-card, #1a1a2e);
+  z-index: 1;
 }
 
 .btn-theme-like:hover .like-tooltip {
