@@ -86,7 +86,7 @@ export function getClient() {
     // Add extra headers for OpenRouter
     if (config.provider === 'openrouter') {
         clientOptions.defaultHeaders = {
-            'HTTP-Referer': process.env.SITE_URL || 'http://localhost:3001',
+            'HTTP-Referer': process.env.SITE_URL || 'http://localhost:3000',
             'X-Title': 'Portfolio Chatbot'
         };
     }
