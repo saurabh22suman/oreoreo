@@ -243,6 +243,32 @@
       ]
     }
   ],
+  "certifications": [
+    {
+      "name": "AWS Solutions Architect Professional",
+      "issuer": "Amazon Web Services",
+      "year": "2022",
+      "url": "https://aws.amazon.com/certification/"
+    },
+    {
+      "name": "Professional Cloud Architect",
+      "issuer": "Google Cloud",
+      "year": "2023",
+      "url": "https://cloud.google.com/certification/"
+    },
+    {
+      "name": "Databricks Certified Data Engineer",
+      "issuer": "Databricks",
+      "year": "2023",
+      "url": "https://www.databricks.com/learn/certification"
+    },
+    {
+      "name": "Microsoft Certified: Azure Data Engineer",
+      "issuer": "Microsoft",
+      "year": "2022",
+      "url": "https://learn.microsoft.com/certifications/"
+    }
+  ],
   "education": [
     {
       "institution": "University of California, Berkeley",
@@ -253,16 +279,6 @@
       "institution": "University of California, Berkeley",
       "degree": "B.S. Computer Science",
       "year": "2017"
-    },
-    {
-      "institution": "AWS Certified",
-      "degree": "Solutions Architect Professional",
-      "year": "2022"
-    },
-    {
-      "institution": "Google Cloud",
-      "degree": "Professional Cloud Architect",
-      "year": "2023"
     }
   ]
 }

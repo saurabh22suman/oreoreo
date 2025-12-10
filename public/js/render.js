@@ -70,7 +70,7 @@ function renderHero(profile, socials) {
         <h1 class="hero-name">${escapeHtml(profile.name)}</h1>
         <p class="hero-title">${escapeHtml(profile.title)}</p>
         <p class="hero-location">
-          📍 ${escapeHtml(profile.location)} • ✉️ ${escapeHtml(profile.email)}
+          📍 ${escapeHtml(profile.location)}
         </p>
         <p class="hero-summary">${escapeHtml(profile.summary)}</p>
         <div class="social-links">
@@ -200,6 +200,44 @@ function renderExperience(experience) {
 }
 
 /**
+ * Render the certifications section
+ */
+function renderCertifications(certifications) {
+  if (!certifications || certifications.length === 0) return '';
+
+  const certificationCards = certifications.map(cert => {
+    const urlHtml = cert.url
+      ? `<a href="${escapeHtml(cert.url)}" target="_blank" class="certification-link">View Credential</a>`
+      : '';
+
+    return `
+      <div class="certification-card">
+        <div class="certification-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+          </svg>
+        </div>
+        <h3 class="certification-name">${escapeHtml(cert.name)}</h3>
+        <p class="certification-issuer">${escapeHtml(cert.issuer)}</p>
+        <p class="certification-year">${escapeHtml(cert.year)}</p>
+        ${urlHtml}
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <section class="section" id="certifications">
+      <div class="container">
+        <h2 class="section-title">Certifications</h2>
+        <div class="certifications-grid">
+          ${certificationCards}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+/**
  * Render the education section
  */
 function renderEducation(education) {
@@ -280,6 +318,7 @@ async function renderPortfolio() {
     renderSkills(data.skills),
     renderProjects(data.projects),
     renderExperience(data.experience),
+    renderCertifications(data.certifications),
     renderEducation(data.education)
   ].join('');
 
