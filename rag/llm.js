@@ -1,4 +1,9 @@
-import OpenAI from 'openai';
+/**
+ * LLM Response Generation
+ * Uses the provider abstraction to support multiple LLM backends
+ */
+
+import { getClient, getChatModel, isProviderConfigured, getProviderStatus } from './providers.js';
 
 /**
  * Generate a response using the LLM with retrieved context
@@ -10,13 +15,19 @@ export async function generateResponse(query, chunks) {
     // Build context from chunks
     const context = chunks.map(c => c.text).join('\n\n');
 
-    // Check if OpenAI API key is configured
-    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.startsWith('sk-your')) {
+    // Check if provider is configured
+    if (!isProviderConfigured()) {
+        const status = getProviderStatus();
+        console.log(`LLM provider (${status.name}) not configured. Using fallback.`);
         return generateFallbackResponse(query, chunks);
     }
 
     try {
-        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+        const client = getClient();
+        const model = getChatModel();
+        const status = getProviderStatus();
+
+        console.log(`Using ${status.name} with model: ${model}`);
 
         const systemPrompt = `You are a helpful assistant for a portfolio website. Answer questions based on the provided context about the portfolio owner. Be concise, friendly, and professional.
 
@@ -25,8 +36,8 @@ If the question cannot be answered from the context, politely say you don't have
 Context:
 ${context}`;
 
-        const response = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
+        const response = await client.chat.completions.create({
+            model: model,
             messages: [
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: query }
@@ -37,7 +48,7 @@ ${context}`;
 
         return response.choices[0].message.content;
     } catch (error) {
-        console.error('Error generating LLM response:', error);
+        console.error('Error generating LLM response:', error.message);
         return generateFallbackResponse(query, chunks);
     }
 }

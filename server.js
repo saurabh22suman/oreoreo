@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 import { initializeEmbeddings } from './rag/embed.js';
 import { retrieveRelevantChunks } from './rag/retriever.js';
 import { generateResponse } from './rag/llm.js';
+import { getProviderStatus } from './rag/providers.js';
 
 dotenv.config();
 
@@ -57,6 +58,12 @@ const basicAuth = (req, res, next) => {
 };
 
 // ============ API Routes ============
+
+// GET LLM Provider Status
+app.get('/api/llm/status', (req, res) => {
+    const status = getProviderStatus();
+    res.json(status);
+});
 
 // GET Portfolio JSON
 app.get('/api/portfolio', async (req, res) => {
