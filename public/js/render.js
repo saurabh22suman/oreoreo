@@ -165,14 +165,27 @@ function renderProjects(projects) {
 function renderExperience(experience) {
   if (!experience || experience.length === 0) return '';
 
-  const experienceItems = experience.map(exp => `
-    <div class="experience-item">
-      <h3 class="experience-role">${escapeHtml(exp.role)}</h3>
-      <p class="experience-company">${escapeHtml(exp.company)}</p>
-      <p class="experience-period">${escapeHtml(exp.period)}</p>
-      <p class="experience-description">${escapeHtml(exp.description)}</p>
-    </div>
-  `).join('');
+  const experienceItems = experience.map(exp => {
+    // Support both old 'description' format and new 'highlights' array
+    let descriptionHtml = '';
+    if (exp.highlights && Array.isArray(exp.highlights)) {
+      const highlightsList = exp.highlights.map(h =>
+        `<li>${escapeHtml(h)}</li>`
+      ).join('');
+      descriptionHtml = `<ul class="experience-highlights">${highlightsList}</ul>`;
+    } else if (exp.description) {
+      descriptionHtml = `<p class="experience-description">${escapeHtml(exp.description)}</p>`;
+    }
+
+    return `
+      <div class="experience-item">
+        <h3 class="experience-role">${escapeHtml(exp.role)}</h3>
+        <p class="experience-company">${escapeHtml(exp.company)}</p>
+        <p class="experience-period">${escapeHtml(exp.period)}</p>
+        ${descriptionHtml}
+      </div>
+    `;
+  }).join('');
 
   return `
     <section class="section" id="experience">

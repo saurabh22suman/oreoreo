@@ -1,11 +1,11 @@
 {
   "profile": {
     "name": "Alex Chen",
-    "title": "Full Stack Developer",
+    "title": "Full Stack Developer & Cloud Architect",
     "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
     "location": "San Francisco, CA",
     "email": "alex@example.com",
-    "summary": "Passionate full-stack developer with 5+ years of experience building scalable web applications. I love turning complex problems into simple, beautiful solutions. Currently focused on React, Node.js, and cloud infrastructure.",
+    "summary": "Passionate full-stack developer with 8+ years of experience building scalable web applications and cloud infrastructure. I love turning complex problems into simple, beautiful solutions. Expert in React, Node.js, Python, and cloud-native architectures. Open source contributor and tech community speaker. Currently focused on AI/ML integration and microservices at scale.",
     "photo": "/uploads/profile-photo.JPG"
   },
   "socials": [
@@ -23,6 +23,11 @@
       "platform": "Medium",
       "url": "https://medium.com/@alexchen",
       "icon": "medium"
+    },
+    {
+      "platform": "Portfolio",
+      "url": "https://alexchen.dev",
+      "icon": "globe"
     }
   ],
   "skills": [
@@ -33,7 +38,10 @@
         "Vue.js",
         "TypeScript",
         "Tailwind CSS",
-        "Next.js"
+        "Next.js",
+        "Angular",
+        "Svelte",
+        "Redux"
       ]
     },
     {
@@ -43,7 +51,10 @@
         "Python",
         "Express",
         "FastAPI",
-        "GraphQL"
+        "GraphQL",
+        "Django",
+        "Go",
+        "Rust"
       ]
     },
     {
@@ -52,83 +63,206 @@
         "PostgreSQL",
         "MongoDB",
         "Redis",
-        "Firebase"
+        "Firebase",
+        "Elasticsearch",
+        "Cassandra",
+        "DynamoDB"
       ]
     },
     {
-      "category": "DevOps",
+      "category": "DevOps & Cloud",
       "items": [
         "Docker",
         "Kubernetes",
         "AWS",
+        "GCP",
+        "Azure",
         "CI/CD",
-        "Terraform"
+        "Terraform",
+        "Ansible"
+      ]
+    },
+    {
+      "category": "AI & ML",
+      "items": [
+        "OpenAI",
+        "LangChain",
+        "TensorFlow",
+        "PyTorch",
+        "Hugging Face",
+        "RAG Systems"
+      ]
+    },
+    {
+      "category": "Tools & Others",
+      "items": [
+        "Git",
+        "Linux",
+        "Nginx",
+        "RabbitMQ",
+        "Kafka",
+        "Prometheus",
+        "Grafana"
       ]
     }
   ],
   "projects": [
     {
       "title": "CloudSync Pro",
-      "description": "A real-time file synchronization platform built with Node.js and React. Supports end-to-end encryption and collaborative editing.",
+      "description": "A real-time file synchronization platform built with Node.js and React. Supports end-to-end encryption, collaborative editing, and seamless integration with popular cloud providers. Handles 50K+ concurrent users.",
       "technologies": [
         "React",
         "Node.js",
         "WebSocket",
-        "AWS S3"
+        "AWS S3",
+        "Redis"
       ],
       "url": "https://cloudsync.example.com",
       "github": "https://github.com/alexchen/cloudsync"
     },
     {
       "title": "AI Task Manager",
-      "description": "Smart task management app that uses AI to prioritize and categorize tasks automatically. Features natural language input and voice commands.",
+      "description": "Smart task management app that uses AI to prioritize and categorize tasks automatically. Features natural language input, voice commands, and smart scheduling based on user behavior patterns.",
       "technologies": [
         "Vue.js",
         "Python",
         "OpenAI",
-        "PostgreSQL"
+        "PostgreSQL",
+        "FastAPI"
       ],
       "url": "https://aitasks.example.com",
       "github": "https://github.com/alexchen/ai-tasks"
     },
     {
       "title": "DevMetrics Dashboard",
-      "description": "Analytics dashboard for development teams. Tracks code quality, deployment frequency, and team productivity metrics.",
+      "description": "Analytics dashboard for development teams. Tracks code quality, deployment frequency, team productivity metrics, and provides AI-powered insights for process improvement.",
       "technologies": [
         "Next.js",
         "D3.js",
         "GraphQL",
-        "MongoDB"
+        "MongoDB",
+        "Python"
       ],
       "url": "https://devmetrics.example.com",
       "github": "https://github.com/alexchen/devmetrics"
+    },
+    {
+      "title": "E-Commerce Platform",
+      "description": "Full-featured e-commerce solution with inventory management, payment processing, and recommendation engine. Built for high availability with microservices architecture.",
+      "technologies": [
+        "React",
+        "Node.js",
+        "Stripe",
+        "Elasticsearch",
+        "Docker"
+      ],
+      "url": "https://shop.example.com",
+      "github": "https://github.com/alexchen/ecommerce"
+    },
+    {
+      "title": "Real-time Chat Platform",
+      "description": "Scalable messaging platform supporting group chats, file sharing, video calls, and end-to-end encryption. Built to handle millions of messages per day.",
+      "technologies": [
+        "React Native",
+        "Socket.io",
+        "Redis",
+        "PostgreSQL",
+        "WebRTC"
+      ],
+      "url": "https://chat.example.com",
+      "github": "https://github.com/alexchen/realtime-chat"
+    },
+    {
+      "title": "Open Source CLI Tool",
+      "description": "Developer productivity CLI tool for managing cloud resources, automating deployments, and generating boilerplate code. 5K+ GitHub stars.",
+      "technologies": [
+        "Go",
+        "Cobra",
+        "AWS SDK",
+        "GCP SDK"
+      ],
+      "url": "https://devtool.example.com",
+      "github": "https://github.com/alexchen/devtool-cli"
     }
   ],
   "experience": [
     {
       "company": "TechCorp Inc.",
+      "role": "Principal Software Engineer",
+      "period": "2023 - Present",
+      "highlights": [
+        "Leading architecture decisions for the entire platform serving 5M+ users",
+        "Driving adoption of AI/ML capabilities across products, increasing user engagement by 35%",
+        "Managing a team of 8 engineers and mentoring senior developers",
+        "Reduced infrastructure costs by 40% through optimization and right-sizing",
+        "Established engineering best practices and documentation standards"
+      ]
+    },
+    {
+      "company": "TechCorp Inc.",
       "role": "Senior Full Stack Developer",
-      "period": "2021 - Present",
-      "description": "Lead developer for the core platform team. Architected microservices infrastructure serving 1M+ daily users. Mentored junior developers and established code review practices."
+      "period": "2021 - 2023",
+      "highlights": [
+        "Led development of the core platform team's microservices infrastructure",
+        "Architected systems serving 1M+ daily active users with 99.9% uptime",
+        "Established code review practices and improved deployment frequency by 3x",
+        "Mentored 4 junior developers and conducted technical interviews"
+      ]
     },
     {
       "company": "StartupXYZ",
       "role": "Full Stack Developer",
       "period": "2019 - 2021",
-      "description": "Built the entire frontend from scratch using React. Implemented REST APIs and database schemas. Reduced page load time by 60% through optimization."
+      "highlights": [
+        "Built the entire frontend from scratch using React and TypeScript",
+        "Implemented REST APIs and database schemas for core business logic",
+        "Reduced page load time by 60% through code splitting and caching",
+        "Led migration to cloud-native infrastructure on AWS",
+        "Contributed to product roadmap and feature prioritization"
+      ]
     },
     {
       "company": "WebAgency",
-      "role": "Junior Developer",
-      "period": "2018 - 2019",
-      "description": "Developed responsive websites for various clients. Learned modern JavaScript frameworks and agile methodologies."
+      "role": "Software Developer",
+      "period": "2017 - 2019",
+      "highlights": [
+        "Developed responsive websites and web applications for 20+ clients",
+        "Worked with modern JavaScript frameworks including React and Vue.js",
+        "Implemented agile methodologies improving project delivery by 25%",
+        "Contributed to open source projects and internal component library"
+      ]
+    },
+    {
+      "company": "Tech Internship",
+      "role": "Software Engineering Intern",
+      "period": "Summer 2016",
+      "highlights": [
+        "Gained hands-on experience with full-stack development",
+        "Built internal tools that improved team productivity by 20%",
+        "Learned version control, testing, and CI/CD best practices"
+      ]
     }
   ],
   "education": [
     {
       "institution": "University of California, Berkeley",
+      "degree": "M.S. Computer Science",
+      "year": "2020"
+    },
+    {
+      "institution": "University of California, Berkeley",
       "degree": "B.S. Computer Science",
-      "year": "2018"
+      "year": "2017"
+    },
+    {
+      "institution": "AWS Certified",
+      "degree": "Solutions Architect Professional",
+      "year": "2022"
+    },
+    {
+      "institution": "Google Cloud",
+      "degree": "Professional Cloud Architect",
+      "year": "2023"
     }
   ]
 }

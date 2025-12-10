@@ -471,6 +471,32 @@ body {
   margin-bottom: 1rem;
 }
 
+.experience-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.experience-highlights li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.experience-highlights li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.experience-highlights li:last-child {
+  margin-bottom: 0;
+}
+
 /* Education */
 .education-grid {
   display: grid;
