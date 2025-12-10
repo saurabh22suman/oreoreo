@@ -60,7 +60,7 @@ const basicAuth = (req, res, next) => {
 // ============ API Routes ============
 
 // GET LLM Provider Status
-app.get('/api/llm/status', (req, res) => {
+app.get('/api/llm/status', basicAuth, (req, res) => {
     const status = getProviderStatus();
     res.json(status);
 });
