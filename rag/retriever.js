@@ -1,6 +1,6 @@
 import { getEmbeddingsCache, generateQueryEmbedding, cosineSimilarity } from './embed.js';
 
-const TOP_K = 3; // Number of relevant chunks to retrieve
+const TOP_K = 5; // Number of relevant chunks to retrieve (increased for better context)
 
 /**
  * Retrieve the most relevant chunks for a given query
@@ -67,12 +67,14 @@ function retrieveByKeyword(query, cache) {
 
         // Bonus for type matches
         const typeKeywords = {
-            project: ['project', 'built', 'created', 'developed', 'app', 'website'],
-            skill: ['skill', 'know', 'technology', 'language', 'framework', 'tool'],
-            experience: ['work', 'job', 'company', 'role', 'position', 'experience'],
-            education: ['education', 'degree', 'university', 'school', 'study'],
-            profile: ['who', 'about', 'name', 'contact', 'email'],
-            social: ['social', 'link', 'github', 'linkedin', 'twitter']
+            project: ['project', 'built', 'created', 'developed', 'app', 'website', 'pipeline', 'system'],
+            skill: ['skill', 'know', 'technology', 'language', 'framework', 'tool', 'tech', 'stack'],
+            experience: ['work', 'job', 'company', 'role', 'position', 'experience', 'career', 'employed'],
+            education: ['education', 'degree', 'university', 'school', 'study', 'college', 'bachelor', 'master'],
+            profile: ['who', 'about', 'name', 'contact', 'email', 'summary', 'introduce'],
+            social: ['social', 'link', 'github', 'linkedin', 'twitter', 'medium', 'portfolio', 'website'],
+            certification: ['certification', 'certified', 'certificate', 'credential', 'badge', 'qualification'],
+            interests: ['interest', 'hobby', 'hobbies', 'like', 'enjoy', 'passion', 'free time', 'fun']
         };
 
         if (typeKeywords[chunk.type]) {

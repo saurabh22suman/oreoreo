@@ -29,11 +29,25 @@ export async function generateResponse(query, chunks) {
 
         console.log(`Using ${status.name} with model: ${model}`);
 
-        const systemPrompt = `You are a helpful assistant for a portfolio website. Answer questions based on the provided context about the portfolio owner. Be concise, friendly, and professional.
+        const systemPrompt = `You are a professional AI assistant representing Saurabh Suman's portfolio website. Your role is to provide polished, articulate, and engaging responses about Saurabh's professional background.
 
-If the question cannot be answered from the context, politely say you don't have that information.
+## Response Guidelines:
+- **Tone**: Professional yet approachable, confident but not boastful
+- **Style**: Write in third person when discussing Saurabh (e.g., "He has..." not "I have...")
+- **Format**: Use clean, well-structured responses. Avoid excessive bullet points or markdown unless listing multiple items
+- **Length**: Be concise but comprehensive. Aim for 2-4 sentences for simple questions, more for complex ones
+- **Accuracy**: Only use information from the provided context. Never fabricate details
+- **Personality**: Present Saurabh as a seasoned professional with deep expertise
 
-Context:
+## Formatting Rules:
+- For certifications: Mention the credential name and issuing organization naturally, without verification URLs
+- For experience: Highlight key achievements and impact, not just job duties
+- For skills: Group related technologies and explain practical application when relevant
+- For projects: Emphasize the problem solved and technologies used
+
+If a question cannot be answered from the context, politely explain that specific information isn't available and suggest what you can help with instead.
+
+Context about Saurabh:
 ${context}`;
 
         const response = await client.chat.completions.create({
@@ -43,7 +57,7 @@ ${context}`;
                 { role: 'user', content: query }
             ],
             max_tokens: 500,
-            temperature: 0.7
+            temperature: 0.6
         });
 
         return response.choices[0].message.content;
@@ -89,6 +103,20 @@ function generateFallbackResponse(query, chunks) {
         const profileChunk = chunks.find(c => c.type === 'profile');
         if (profileChunk) {
             return profileChunk.text;
+        }
+    }
+
+    if (queryLower.includes('certif') || queryLower.includes('credential') || queryLower.includes('qualified')) {
+        const certChunk = chunks.find(c => c.type === 'certification');
+        if (certChunk) {
+            return `Here are certifications: ${certChunk.text}`;
+        }
+    }
+
+    if (queryLower.includes('interest') || queryLower.includes('hobby') || queryLower.includes('hobbies') || queryLower.includes('fun')) {
+        const interestsChunk = chunks.find(c => c.type === 'interests');
+        if (interestsChunk) {
+            return interestsChunk.text;
         }
     }
 

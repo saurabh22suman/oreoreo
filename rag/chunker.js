@@ -49,13 +49,20 @@ export async function chunkPortfolio() {
             });
         }
 
-        // Experience chunks
+        // Experience chunks - include highlights for detailed work history
         if (portfolio.experience && Array.isArray(portfolio.experience)) {
             portfolio.experience.forEach((exp, index) => {
+                // Build text from highlights array if available, otherwise use description
+                let experienceText = `Experience: ${exp.role} at ${exp.company} (${exp.period}).`;
+                if (exp.highlights && Array.isArray(exp.highlights)) {
+                    experienceText += ` Key achievements: ${exp.highlights.join('. ')}.`;
+                } else if (exp.description) {
+                    experienceText += ` ${exp.description}`;
+                }
                 chunks.push({
                     id: `experience-${index}`,
                     type: 'experience',
-                    text: `Experience: ${exp.role} at ${exp.company} (${exp.period}). ${exp.description}`
+                    text: experienceText
                 });
             });
         }
@@ -68,6 +75,33 @@ export async function chunkPortfolio() {
                     type: 'education',
                     text: `Education: ${edu.degree} from ${edu.institution} (${edu.year})`
                 });
+            });
+        }
+
+        // Certifications chunks
+        if (portfolio.certifications && Array.isArray(portfolio.certifications)) {
+            portfolio.certifications.forEach((cert, index) => {
+                chunks.push({
+                    id: `certification-${index}`,
+                    type: 'certification',
+                    text: `Certification: ${cert.name} issued by ${cert.issuer}, obtained in ${cert.year}`
+                });
+            });
+            // Also create a combined certifications summary chunk
+            const certList = portfolio.certifications.map(c => `${c.name} (${c.issuer})`).join(', ');
+            chunks.push({
+                id: 'certifications-summary',
+                type: 'certification',
+                text: `All Certifications: ${certList}`
+            });
+        }
+
+        // Interests chunk
+        if (portfolio.interests && Array.isArray(portfolio.interests)) {
+            chunks.push({
+                id: 'interests',
+                type: 'interests',
+                text: `Interests and Hobbies: ${portfolio.interests.join(', ')}`
             });
         }
 
