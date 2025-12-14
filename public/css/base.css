@@ -497,6 +497,43 @@ body {
   margin-bottom: 0;
 }
 
+/* Resume Download Button */
+.resume-download-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.resume-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--accent, #7c3aed) 0%, var(--accent-hover, #6d28d9) 100%);
+  border: none;
+  border-radius: var(--border-radius-pill, 50px);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.resume-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.resume-download-btn:active {
+  transform: translateY(0);
+}
+
+.resume-download-btn svg {
+  flex-shrink: 0;
+}
+
 /* Education */
 .education-grid {
   display: grid;

@@ -1,293 +1,252 @@
 {
   "profile": {
-    "name": "Alex Chen",
-    "title": "Full Stack Developer & Cloud Architect",
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-    "location": "San Francisco, CA",
-    "email": "alex@example.com",
-    "summary": "Passionate full-stack developer with 8+ years of experience building scalable web applications and cloud infrastructure. I love turning complex problems into simple, beautiful solutions. Expert in React, Node.js, Python, and cloud-native architectures. Open source contributor and tech community speaker. Currently focused on AI/ML integration and microservices at scale.",
-    "photo": "/uploads/profile-photo.JPG"
+    "name": "Saurabh Suman",
+    "title": "Senior Data Engineer",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Saurabh",
+    "location": "Pune, India",
+    "email": "soloengine007@gmail.com",
+    "summary": "Senior Data Engineer with 7+ years of experience specializing in Databricks, Azure, Fabric, AWS and Delta Lake with strong skills in Python, PySpark, SQL, and medallion architecture. Experienced in building scalable pipelines, optimizing performance, and delivering analytics-ready datasets.",
+    "photo": "/uploads/profile-photo.jpg",
+    "resume": "/uploads/resume.pdf"
   },
   "socials": [
     {
       "platform": "GitHub",
-      "url": "https://github.com/alexchen",
+      "url": "https://github.com/saurabh22suman",
       "icon": "github"
     },
     {
-      "platform": "LinkedIn",
-      "url": "https://linkedin.com/in/alexchen",
-      "icon": "linkedin"
+      "platform": "Portfolio",
+      "url": "https://me.soloengine.in/",
+      "icon": "globe"
     },
     {
       "platform": "Medium",
-      "url": "https://medium.com/@alexchen",
+      "url": "https://medium.com/@saurabh22suman",
       "icon": "medium"
     },
     {
-      "platform": "Portfolio",
-      "url": "https://alexchen.dev",
-      "icon": "globe"
+      "platform": "Email",
+      "url": "mailto:soloengine007@gmail.com",
+      "icon": "email"
     }
   ],
   "skills": [
     {
-      "category": "Frontend",
+      "category": "Cloud Platforms",
       "items": [
-        "React",
-        "Vue.js",
-        "TypeScript",
-        "Tailwind CSS",
-        "Next.js",
-        "Angular",
-        "Svelte",
-        "Redux"
+        "Azure ADF",
+        "Databricks",
+        "Synapse",
+        "Microsoft Fabric",
+        "AWS Glue",
+        "S3",
+        "Bedrock",
+        "Aurora",
+        "EC2",
+        "SageMaker"
       ]
     },
     {
-      "category": "Backend",
+      "category": "Data Engineering",
       "items": [
-        "Node.js",
+        "PySpark",
+        "Delta Lake",
+        "Unity Catalog",
+        "Medallion Architecture",
+        "ETL/ELT",
+        "Data Modelling"
+      ]
+    },
+    {
+      "category": "Programming",
+      "items": [
         "Python",
-        "Express",
-        "FastAPI",
-        "GraphQL",
-        "Django",
-        "Go",
-        "Rust"
+        "SQL",
+        "PySpark",
+        "Pandas"
       ]
     },
     {
-      "category": "Database",
+      "category": "Orchestration & DevOps",
       "items": [
-        "PostgreSQL",
-        "MongoDB",
-        "Redis",
-        "Firebase",
-        "Elasticsearch",
-        "Cassandra",
-        "DynamoDB"
-      ]
-    },
-    {
-      "category": "DevOps & Cloud",
-      "items": [
-        "Docker",
-        "Kubernetes",
-        "AWS",
-        "GCP",
-        "Azure",
-        "CI/CD",
-        "Terraform",
-        "Ansible"
-      ]
-    },
-    {
-      "category": "AI & ML",
-      "items": [
-        "OpenAI",
-        "LangChain",
-        "TensorFlow",
-        "PyTorch",
-        "Hugging Face",
-        "RAG Systems"
-      ]
-    },
-    {
-      "category": "Tools & Others",
-      "items": [
+        "Azure DevOps",
         "Git",
-        "Linux",
-        "Nginx",
-        "RabbitMQ",
-        "Kafka",
-        "Prometheus",
-        "Grafana"
+        "CI/CD Pipelines",
+        "Docker"
+      ]
+    },
+    {
+      "category": "Analytics & BI",
+      "items": [
+        "Power BI",
+        "KQL",
+        "Excel"
+      ]
+    },
+    {
+      "category": "AI/ML",
+      "items": [
+        "LLMs (Amazon Bedrock)",
+        "GPT",
+        "RAG Pipelines",
+        "Optimization (PuLP)"
       ]
     }
   ],
   "projects": [
     {
-      "title": "CloudSync Pro",
-      "description": "A real-time file synchronization platform built with Node.js and React. Supports end-to-end encryption, collaborative editing, and seamless integration with popular cloud providers. Handles 50K+ concurrent users.",
+      "title": "Multi-Agent LLM Query System",
+      "description": "Designed a Multi-Agent LLM Query System using Amazon Bedrock to enable natural language querying on Amazon Aurora. Built a scalable backend hosted on EC2 with async inference.",
       "technologies": [
-        "React",
-        "Node.js",
-        "WebSocket",
-        "AWS S3",
-        "Redis"
+        "Amazon Bedrock",
+        "Aurora",
+        "S3",
+        "EC2",
+        "SageMaker",
+        "RAG"
       ],
-      "url": "https://cloudsync.example.com",
-      "github": "https://github.com/alexchen/cloudsync"
+      "url": "",
+      "github": ""
     },
     {
-      "title": "AI Task Manager",
-      "description": "Smart task management app that uses AI to prioritize and categorize tasks automatically. Features natural language input, voice commands, and smart scheduling based on user behavior patterns.",
+      "title": "Enterprise IoT Data Pipeline",
+      "description": "Enhanced enterprise-scale ingestion pipelines processing IoT sensor streams, machine logs, and application logs into a medallion (bronze–silver–gold) architecture using Synapse and Databricks.",
       "technologies": [
-        "Vue.js",
+        "Azure Synapse",
+        "Databricks",
+        "Event Streams",
+        "ADLS",
+        "Power BI",
+        "PySpark"
+      ],
+      "url": "",
+      "github": ""
+    },
+    {
+      "title": "Microsoft Fabric Migration",
+      "description": "Led migration of legacy ADF + Synapse workloads to Microsoft Fabric. Implemented Fabric Lakehouse and Warehouse models with HIPAA-compliant data governance.",
+      "technologies": [
+        "Microsoft Fabric",
+        "Azure Data Factory",
+        "Synapse",
+        "Databricks",
+        "ADLS Gen2",
+        "Power BI"
+      ],
+      "url": "",
+      "github": ""
+    },
+    {
+      "title": "Optimization Engine Pipelines",
+      "description": "Built Optimization Engine Pipelines ingesting multi-source data using ADF and Databricks. Developed serverless APIs with Azure Functions to return optimized JSON responses in real time.",
+      "technologies": [
+        "Azure ADF",
+        "Databricks",
+        "Azure Functions",
         "Python",
-        "OpenAI",
-        "PostgreSQL",
-        "FastAPI"
+        "Pandas",
+        "PuLP"
       ],
-      "url": "https://aitasks.example.com",
-      "github": "https://github.com/alexchen/ai-tasks"
+      "url": "",
+      "github": ""
     },
     {
-      "title": "DevMetrics Dashboard",
-      "description": "Analytics dashboard for development teams. Tracks code quality, deployment frequency, team productivity metrics, and provides AI-powered insights for process improvement.",
+      "title": "Azure Subscription Cost Analytics",
+      "description": "Developed Azure Subscription Cost Analytics using ADF pipelines with in-line KQL transformations. Loaded curated datasets into SQL Server for Power BI cost dashboards.",
       "technologies": [
-        "Next.js",
-        "D3.js",
-        "GraphQL",
-        "MongoDB",
-        "Python"
+        "Azure ADF",
+        "Log Analytics",
+        "KQL",
+        "SQL Server",
+        "Power BI"
       ],
-      "url": "https://devmetrics.example.com",
-      "github": "https://github.com/alexchen/devmetrics"
-    },
-    {
-      "title": "E-Commerce Platform",
-      "description": "Full-featured e-commerce solution with inventory management, payment processing, and recommendation engine. Built for high availability with microservices architecture.",
-      "technologies": [
-        "React",
-        "Node.js",
-        "Stripe",
-        "Elasticsearch",
-        "Docker"
-      ],
-      "url": "https://shop.example.com",
-      "github": "https://github.com/alexchen/ecommerce"
-    },
-    {
-      "title": "Real-time Chat Platform",
-      "description": "Scalable messaging platform supporting group chats, file sharing, video calls, and end-to-end encryption. Built to handle millions of messages per day.",
-      "technologies": [
-        "React Native",
-        "Socket.io",
-        "Redis",
-        "PostgreSQL",
-        "WebRTC"
-      ],
-      "url": "https://chat.example.com",
-      "github": "https://github.com/alexchen/realtime-chat"
-    },
-    {
-      "title": "Open Source CLI Tool",
-      "description": "Developer productivity CLI tool for managing cloud resources, automating deployments, and generating boilerplate code. 5K+ GitHub stars.",
-      "technologies": [
-        "Go",
-        "Cobra",
-        "AWS SDK",
-        "GCP SDK"
-      ],
-      "url": "https://devtool.example.com",
-      "github": "https://github.com/alexchen/devtool-cli"
+      "url": "",
+      "github": ""
     }
   ],
   "experience": [
     {
-      "company": "TechCorp Inc.",
-      "role": "Principal Software Engineer",
-      "period": "2023 - Present",
+      "company": "Fujitsu India Pvt. Ltd.",
+      "role": "Application Developer",
+      "period": "Jan 2025 - Present",
       "highlights": [
-        "Leading architecture decisions for the entire platform serving 5M+ users",
-        "Driving adoption of AI/ML capabilities across products, increasing user engagement by 35%",
-        "Managing a team of 8 engineers and mentoring senior developers",
-        "Reduced infrastructure costs by 40% through optimization and right-sizing",
-        "Established engineering best practices and documentation standards"
+        "Enhanced enterprise-scale ingestion pipelines processing IoT sensor streams, machine logs, and application logs into medallion architecture",
+        "Built optimized bronze, silver, and gold layers using Synapse and Databricks; developed curated fact and dimension models powering Power BI analytics",
+        "Improved pipeline reliability and observability through structured logging, automated retries, and event-driven alerting",
+        "Designed a Multi-Agent LLM Query System using Amazon Bedrock for natural language querying on Amazon Aurora",
+        "Built scalable backend hosted on EC2 with async inference; optimized model evaluation using Amazon SageMaker"
       ]
     },
     {
-      "company": "TechCorp Inc.",
-      "role": "Senior Full Stack Developer",
-      "period": "2021 - 2023",
+      "company": "Citiustech Healthcare Technology",
+      "role": "Technical Lead - I",
+      "period": "Sept 2024 - Jan 2025",
       "highlights": [
-        "Led development of the core platform team's microservices infrastructure",
-        "Architected systems serving 1M+ daily active users with 99.9% uptime",
-        "Established code review practices and improved deployment frequency by 3x",
-        "Mentored 4 junior developers and conducted technical interviews"
+        "Led a team of 4 engineers to migrate legacy ADF + Synapse workloads to Microsoft Fabric",
+        "Rewrote PySpark logic from Databricks to Fabric Spark; implemented Fabric Lakehouse and Warehouse models",
+        "Designed HIPAA-compliant data governance: IAM roles, RBAC, network isolation, and workspace-level security",
+        "Performed code reviews, estimations, sprint planning, and mentored junior engineers",
+        "Delivered migration with zero downtime and improved query performance across Power BI datasets"
       ]
     },
     {
-      "company": "StartupXYZ",
-      "role": "Full Stack Developer",
-      "period": "2019 - 2021",
+      "company": "Tiger Analytics",
+      "role": "Data Scientist",
+      "period": "June 2022 - Sept 2024",
       "highlights": [
-        "Built the entire frontend from scratch using React and TypeScript",
-        "Implemented REST APIs and database schemas for core business logic",
-        "Reduced page load time by 60% through code splitting and caching",
-        "Led migration to cloud-native infrastructure on AWS",
-        "Contributed to product roadmap and feature prioritization"
+        "Built Optimization Engine Pipelines ingesting multi-source data using ADF and Databricks",
+        "Implemented preprocessing, postprocessing, and optimization workflows using PySpark, Pandas, and PuLP",
+        "Developed serverless APIs with Azure Functions (HTTP trigger) to return optimized JSON responses in real time",
+        "Built End-to-End Reporting Pipelines from ingestion to curated outputs and automated report dissemination",
+        "Exported curated data as Excel and automated uploads to SharePoint; triggered Power BI dataset refresh"
       ]
     },
     {
-      "company": "WebAgency",
-      "role": "Software Developer",
-      "period": "2017 - 2019",
+      "company": "Infosys",
+      "role": "Specialist Programmer",
+      "period": "June 2018 - June 2022",
       "highlights": [
-        "Developed responsive websites and web applications for 20+ clients",
-        "Worked with modern JavaScript frameworks including React and Vue.js",
-        "Implemented agile methodologies improving project delivery by 25%",
-        "Contributed to open source projects and internal component library"
-      ]
-    },
-    {
-      "company": "Tech Internship",
-      "role": "Software Engineering Intern",
-      "period": "Summer 2016",
-      "highlights": [
-        "Gained hands-on experience with full-stack development",
-        "Built internal tools that improved team productivity by 20%",
-        "Learned version control, testing, and CI/CD best practices"
+        "Developed Azure Subscription Cost Analytics using ADF pipelines with in-line KQL transformations",
+        "Processed Log Analytics data using Kusto Query Language; reduced unnecessary data movement",
+        "Built Internet Banking Backend Services using Java Spring Boot for OD, deposits, cheques, and scheduled jobs",
+        "Redesigned UI screens for OD and account info using Angular 7, TypeScript, and Bootstrap"
       ]
     }
   ],
   "certifications": [
     {
-      "name": "AWS Solutions Architect Professional",
-      "issuer": "Amazon Web Services",
-      "year": "2022",
-      "url": "https://aws.amazon.com/certification/"
-    },
-    {
-      "name": "Professional Cloud Architect",
-      "issuer": "Google Cloud",
-      "year": "2023",
-      "url": "https://cloud.google.com/certification/"
-    },
-    {
-      "name": "Databricks Certified Data Engineer",
+      "name": "Certified Data Engineer Associate",
       "issuer": "Databricks",
-      "year": "2023",
-      "url": "https://www.databricks.com/learn/certification"
+      "year": "2025",
+      "url": "https://credentials.databricks.com/"
     },
     {
-      "name": "Microsoft Certified: Azure Data Engineer",
+      "name": "Fabric Data Engineer Associate",
       "issuer": "Microsoft",
-      "year": "2022",
-      "url": "https://learn.microsoft.com/certifications/"
+      "year": "2025",
+      "url": "https://learn.microsoft.com/en-us/credentials/"
+    },
+    {
+      "name": "Azure Data Fundamentals",
+      "issuer": "Microsoft",
+      "year": "2025",
+      "url": "https://learn.microsoft.com/en-us/credentials/"
     }
   ],
   "education": [
     {
-      "institution": "University of California, Berkeley",
-      "degree": "M.S. Computer Science",
-      "year": "2020"
-    },
-    {
-      "institution": "University of California, Berkeley",
-      "degree": "B.S. Computer Science",
-      "year": "2017"
+      "institution": "Jabalpur Engineering College",
+      "degree": "Bachelor of Engineering in Information Technology",
+      "year": "2014 - 2018"
     }
   ],
   "interests": [
     "Computing",
-    "Music",
     "Traveling",
-    "Mentoring",
-    "Social service",
-    "TV series",
+    "Lawn Tennis",
+    "Table Tennis",
+    "3D Printing",
     "Technology",
     "Problem solving"
   ]

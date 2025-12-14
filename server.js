@@ -218,6 +218,95 @@ app.delete('/api/upload-photo', basicAuth, async (req, res) => {
     }
 });
 
+// POST Upload Resume (Auth Required)
+app.post('/api/upload-resume', basicAuth, upload.single('resume'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No resume file provided' });
+        }
+
+        // Validate file type (PDF only)
+        if (req.file.mimetype !== 'application/pdf') {
+            return res.status(400).json({ error: 'Invalid file type. Only PDF files are allowed.' });
+        }
+
+        // Limit file size (10MB)
+        if (req.file.size > 10 * 1024 * 1024) {
+            return res.status(400).json({ error: 'File too large. Maximum size: 10MB' });
+        }
+
+        // Ensure uploads directory exists
+        if (!existsSync(UPLOADS_DIR)) {
+            await mkdir(UPLOADS_DIR, { recursive: true });
+        }
+
+        // Use fixed filename for resume
+        const filename = 'resume.pdf';
+        const filePath = join(UPLOADS_DIR, filename);
+
+        // Delete old resume if exists
+        if (existsSync(filePath)) {
+            try {
+                await unlink(filePath);
+            } catch (e) {
+                // Ignore errors deleting old file
+            }
+        }
+
+        // Save the file
+        await writeFile(filePath, req.file.buffer);
+
+        // Update portfolio.json with the new resume path
+        const resumeUrl = `/uploads/${filename}`;
+        try {
+            const portfolioData = JSON.parse(await readFile(PORTFOLIO_PATH, 'utf8'));
+            portfolioData.profile.resume = resumeUrl;
+            await writeFile(PORTFOLIO_PATH, JSON.stringify(portfolioData, null, 2), 'utf8');
+        } catch (e) {
+            console.error('Failed to update portfolio with resume path:', e);
+        }
+
+        res.json({
+            success: true,
+            message: 'Resume uploaded successfully',
+            resumeUrl
+        });
+    } catch (error) {
+        console.error('Error uploading resume:', error);
+        res.status(500).json({ error: 'Failed to upload resume' });
+    }
+});
+
+// DELETE Resume (Auth Required)
+app.delete('/api/upload-resume', basicAuth, async (req, res) => {
+    try {
+        const filePath = join(UPLOADS_DIR, 'resume.pdf');
+        let deleted = false;
+
+        if (existsSync(filePath)) {
+            await unlink(filePath);
+            deleted = true;
+        }
+
+        // Update portfolio.json to remove resume path
+        try {
+            const portfolioData = JSON.parse(await readFile(PORTFOLIO_PATH, 'utf8'));
+            delete portfolioData.profile.resume;
+            await writeFile(PORTFOLIO_PATH, JSON.stringify(portfolioData, null, 2), 'utf8');
+        } catch (e) {
+            console.error('Failed to update portfolio:', e);
+        }
+
+        res.json({
+            success: true,
+            message: deleted ? 'Resume deleted' : 'No resume to delete'
+        });
+    } catch (error) {
+        console.error('Error deleting resume:', error);
+        res.status(500).json({ error: 'Failed to delete resume' });
+    }
+});
+
 // POST Theme Analytics
 app.post('/api/theme-analytics', async (req, res) => {
     try {
